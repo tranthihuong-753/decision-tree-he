@@ -1,0 +1,90 @@
+## Dùng py-seal 
+
+git clone https://github.com/microsoft/SEAL.git
+
+// cai build tool https://visualstudio.microsoft.com/visual-cpp-build-tools/
+// chay .exe va install 
+✅ “Desktop development with C++”
+✅ “MSVC v143 build tools”
+✅ “Windows 10 SDK”
+
+// tao SEAL/build 
+cmake "C:\decision-tree-SEAL" -G "Visual Studio 17 2022" -A x64 -DSEAL_DIR="C:\decision-tree-SEAL\SEAL\build\lib\Release"cmake --build . --config Release                                  
+RUN 
+g++ t.cpp -o t.exe
+./t.exe
+
+pip install py-seal
+pip install py-seal
+
+## Dùng microsoft SEAL 
+
+git clone https://github.com/microsoft/SEAL.git
+
+// cai build tool https://visualstudio.microsoft.com/visual-cpp-build-tools/
+// chay .exe va install 
+✅ “Desktop development with C++”
+✅ “MSVC v143 build tools”
+✅ “Windows 10 SDK”
+
+// tao SEAL/build 
+cmake .. -G "Visual Studio 17 2022" -A x64
+cmake --build . --config Release 
+
+tạo du_an/build 
+cmake "C:\decision-tree-SEAL" -G "Visual Studio 17 2022" -A x64 -DSEAL_DIR="C:/decision-tree-SEAL/SEAL/build/lib/cmake/SEAL"
+cmake --build . --config Release
+
+Remove-Item * -Recurse -Force
+cmake C:\decision-tree-SEAL\SEAL
+
+cmake .. -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release
+
+cmake ..\SEAL -G "Visual Studio 17 2022" -DSEAL_BUILD_EXAMPLES=OFF -DCMAKE_INSTALL_PREFIX=C:\SEAL_Install
+cmake .. -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DSEAL_DIR="C:/Build-Microsoft-SEAL/SEAL_Build/cmake"
+
+# Build-Microsoft-SEAL
+
+## Cấu hình SEAL 
+
+- cai build tool https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+- chay .exe va install 
+
+“Desktop development with C++”
+
+“MSVC v143 build tools”
+
+“Windows 10 SDK”
+
+- tao du_an/SEAL_Build và du_an/Project_Build 
+
+- cd SEAL_Build 
+
+- cmake ..\SEAL -G "Visual Studio 17 2022" 
+
+
+## Build SEAL 
+
+- cd SEAL_Build 
+
+- cmake --build . --config Release
+
+## Cấu hình SEAL cho project 
+
+- cd Project_Build  
+
+-  cmake .. -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DSEAL_DIR="C:\decision-tree-SEAL\SEAL_Build\cmake"
+
+## Build SEAL cho project 
+
+
+- cd Project_Build  
+
+- cmake --build . --config Release
+
+RUN 
+
+g++ seal_ckks_example.cpp -o seal_ckks_example.exe
+
+Project_Build\Release\seal_ckks_example.exe

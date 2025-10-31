@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50BE7D55-5948-3CE7-933C-17564143FDE1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>msgsl-populate</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-mkdir.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcfgdir=/Debug -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (git clone) for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\msgsl-populate-gitinfo.txt;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing update step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\tmp\msgsl-populate-gitupdate.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\msgsl-populate-update-info.txt;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\msgsl-populate-patch-info.txt;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-configure.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\tmp\msgsl-populate-cfgcmd.txt;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-build.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-install.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\0c714ae234ce50268375e219b03d82ff\msgsl-populate-test.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-test</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\be3ddc85235c538849a4b76f1576499d\msgsl-populate-complete.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'msgsl-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E make_directory C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/Debug/msgsl-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-install;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-mkdir;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-download;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-update;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-patch;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-configure;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-build;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\src\msgsl-populate-stamp\Debug\msgsl-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\Debug\msgsl-populate-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\809806240651ce5a7e2c2e47842081a7\msgsl-populate.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\Debug\msgsl-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\msgsl-populate</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild -BC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeDetermineSystem.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeGenericSystem.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeInitializeConfigs.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeSystem.cmake.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\PatchInfo.txt.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\UpdateInfo.txt.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\cfgcmd.txt.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\gitclone.cmake.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\gitupdate.cmake.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\mkdirs.cmake.in;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Platform\Windows-Initialize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Platform\Windows.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Platform\WindowsPaths.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\4.1.2\CMakeSystem.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\msgsl-populate-prefix\tmp\msgsl-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\CMakeFiles\msgsl-populate">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{75898084-0D4A-3522-90C9-3A5183E4F13F}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,150 @@
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-MKDIR.RULE
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcfgdir=/Debug -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-DOWNLOAD.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-UPDATE.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-src
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-PATCH.RULE
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-CONFIGURE.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-BUILD.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-INSTALL.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\0C714AE234CE50268375E219B03D82FF\MSGSL-POPULATE-TEST.RULE
+setlocal
+cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\msgsl-build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\BE3DDC85235C538849A4B76F1576499D\MSGSL-POPULATE-COMPLETE.RULE
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E make_directory C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/Debug/msgsl-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/src/msgsl-populate-stamp/Debug/msgsl-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKEFILES\809806240651CE5A7E2C2E47842081A7\MSGSL-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKELISTS.TXT
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild -BC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

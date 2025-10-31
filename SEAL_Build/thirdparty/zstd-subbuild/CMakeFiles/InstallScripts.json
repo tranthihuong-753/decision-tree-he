@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
