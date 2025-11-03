@@ -8,6 +8,11 @@
 using namespace std;
 using namespace seal;
 
+struct Iris {
+    vector<double> features; // [sepal_length, sepal_width, petal_length, petal_width]
+    string label;            // "Iris-setosa", "Iris-versicolor", "Iris-virginica"
+};
+
 // Chuẩn hóa dữ liệu về [-1, 1]
 void normalize(vector<Iris> &data)
 {
@@ -202,22 +207,39 @@ Ciphertext compute_encrypted_leaf_value_fixed_SEAL(
     Evaluator &evaluator,
     RelinKeys &relin_keys,
     vector<Ciphertext> &enc_weights,
-    vector<Ciphertext> &enc_labels)
-{
+    vector<Ciphertext> &enc_labels,
+    double scale 
+){
+    cout << " compute_encrypted_leaf_value_fixed_SEAL() Computing encrypted leaf value (fixed SEAL)..." << endl;
     if (enc_weights.empty() || enc_weights.size() != enc_labels.size())
         throw invalid_argument("Danh sach khong hop le.");
+    // cout << "  Number of samples: " << enc_weights.size() << endl; //105 
+    // cout << "  Number of labels: " << enc_labels.size() << endl; //105 
+    // cout << enc_labels[0].parms_id().data()[0] << endl; //1342082883023506191
 
     Ciphertext enc_sum;
-    evaluator.multiply_plain(enc_labels[0], Plaintext("0"), enc_sum); // khởi tạo 0
+    encryptor.encrypt_zero(enc_sum);
+
     for (size_t i = 0; i < enc_weights.size(); i++)
     {
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
         Ciphertext c_product;
         evaluator.multiply(enc_weights[i], enc_labels[i], c_product);
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
         evaluator.relinearize_inplace(c_product, relin_keys);
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
         evaluator.rescale_to_next_inplace(c_product);
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
+        evaluator.mod_switch_to_inplace(enc_sum, c_product.parms_id());
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
+        // cout << "enc_sum parms_id: " << enc_sum.parms_id() << endl;
+        // cout << "c_product parms_id: " << c_product.parms_id() << endl;
+        c_product.scale() = enc_sum.scale();
         evaluator.add_inplace(enc_sum, c_product);
+        // cout << "  Processing sample " << i << " / " << enc_weights.size() << " ..." << endl;
     }
 
+    cout << " compute_encrypted_leaf_value_fixed_SEAL() Done." << endl;
     return enc_sum;
 }
 
@@ -243,27 +265,33 @@ TreeNode *tree_train_secure(
     vector<Ciphertext> &Enc_W_list,
     vector<vector<double>> &X_plain,
     int depth,
-    int max_depth)
+    int max_depth,
+    double scale
+)
 {
+    cout << "Bat dau tree_train_secure() depth " << depth << endl;
     if (depth >= max_depth || Enc_W_list.size() < 2)
     {
-        // Tính leaf value
+        cout << "Reached max depth or insufficient samples at depth " << depth << endl;
         Ciphertext leaf_enc = compute_encrypted_leaf_value_fixed_SEAL(
-            encryptor, evaluator, relin_keys, Enc_W_list, Enc_Y_list);
+            encryptor, evaluator, relin_keys, Enc_W_list, Enc_Y_list, scale);
 
         Plaintext leaf_dec;
         decryptor.decrypt(leaf_enc, leaf_dec);
 
         double leaf_value = stod(leaf_dec.to_string());
-        cout << string(depth * 2, ' ')
-             << "Leaf depth " << depth
-             << " value ≈ " << leaf_value << endl;
 
-        TreeNode *leaf = new TreeNode();
-        leaf->is_leaf = true;
-        leaf->depth = depth;
-        leaf->predicted_label = static_cast<int>(round(leaf_value));
-        return leaf;
+        // cout << string(depth * 2, ' ')
+        //      << "Leaf depth " << depth
+        //      << " value ≈ " << leaf_value << endl;
+        return 0;
+
+        // TreeNode *leaf = new TreeNode();
+        // leaf->is_leaf = true;
+        // leaf->depth = depth;
+        // leaf->predicted_label = static_cast<int>(round(leaf_value));
+        // cout << "Ket thuc tree_train_secure()" << endl;
+        // return leaf;
     }
 
     // (Demo) chọn feature 0, threshold = 0
@@ -280,6 +308,7 @@ TreeNode *tree_train_secure(
     vector<Ciphertext> W_right = Enc_W_list;
 
     // Đệ quy 2 nhánh
+    cout << "De quy 2 nhanh depth " << depth << endl;
     TreeNode *node = new TreeNode();
     node->depth = depth;
     node->is_leaf = false;
@@ -287,17 +316,13 @@ TreeNode *tree_train_secure(
     node->threshold = best_threshold;
     node->left = tree_train_secure(context, encryptor, evaluator, decryptor,
                                    relin_keys, Enc_X_mat, Enc_Y_list, W_left,
-                                   X_plain, depth + 1, max_depth);
+                                   X_plain, depth + 1, max_depth, scale);
     node->right = tree_train_secure(context, encryptor, evaluator, decryptor,
                                     relin_keys, Enc_X_mat, Enc_Y_list, W_right,
-                                    X_plain, depth + 1, max_depth);
+                                    X_plain, depth + 1, max_depth, scale);
+    cout << "Ket thuc tree_train_secure()" << endl;
     return node;
 }
-
-struct Iris {
-    vector<double> features; // [sepal_length, sepal_width, petal_length, petal_width]
-    string label;            // "Iris-setosa", "Iris-versicolor", "Iris-virginica"
-};
 
 vector<Iris> read_iris_csv(const string &filename)
 {
@@ -371,7 +396,6 @@ vector<double> extract_labels_numeric(const vector<Iris> &data)
     return y;
 }
 
-
 int main()
 {
     print_example_banner("Secure Decision Tree Training with SEAL CKKS");
@@ -423,11 +447,18 @@ int main()
         return -1.0;
     };
 
+    // auto label_to_onehot = [](const string &label) -> vector<double> {
+    //     if (label == "Iris-setosa")      return {1.0, 0.0, 0.0};
+    //     if (label == "Iris-versicolor")  return {0.0, 1.0, 0.0};
+    //     if (label == "Iris-virginica")   return {0.0, 0.0, 1.0};
+    //     return {0.0, 0.0, 0.0}; // giá trị mặc định nếu label không khớp
+    // };
+
     for (auto &row : split.train) { X_train.push_back(row.features); Y_train.push_back(labels_to_numeric(row.label)); }
     for (auto &row : split.val)   { X_val.push_back(row.features);   Y_val.push_back(labels_to_numeric(row.label)); }
     for (auto &row : split.test)  { X_test.push_back(row.features);  Y_test.push_back(labels_to_numeric(row.label)); }
 
-    cout << "\nSnSo mau train: " << X_train.size() 
+    cout << "\nSo mau train: " << X_train.size() 
          << ", val: " << X_val.size()
          << ", test: " << X_test.size() << endl;
 
@@ -447,6 +478,11 @@ int main()
         encoder.decode(p, res);
         return res;
     };
+
+    // cout << "Danh sach Y_train truoc ma hoa:\n";
+    // for (size_t i = 0; i < Y_train.size(); ++i) {
+    //     cout << "Y_train[" << i << "] = " << Y_train[i] << endl;
+    // }
 
     // ====== 6. Mã hóa nhãn và trọng số ======
     vector<Ciphertext> Enc_Y, Enc_W;
@@ -468,18 +504,18 @@ int main()
     TreeNode *root = tree_train_secure(
         context, encryptor, evaluator, decryptor,
         relin_keys, Enc_X_mat, Enc_Y, Enc_W,
-        X_train, 0, 4);
+        X_train, 0, 2, scale);
     cout << "\n Huan luyen hoan tat!" << endl;
 
-    // ====== 9. Kiểm tra leaf value ======
-    Ciphertext leaf_ct = compute_encrypted_leaf_value(
-        Enc_W, Enc_Y, evaluator, relin_keys, encryptor, encoder, scale);
-    vector<double> result = decrypt_vector(leaf_ct);
+    // // ====== 9. Kiểm tra leaf value ======
+    // Ciphertext leaf_ct = compute_encrypted_leaf_value(
+    //     Enc_W, Enc_Y, evaluator, relin_keys, encryptor, encoder, scale);
+    // vector<double> result = decrypt_vector(leaf_ct);
 
-    cout << "\n Decrypted leaf vector (sum w*y): ";
-    for (double v : result) cout << v << " ";
-    cout << endl;
+    // cout << "\n Decrypted leaf vector (sum w*y): ";
+    // for (double v : result) cout << v << " ";
+    // cout << endl;
 
-    cout << "\n KET THUC.\n";
+    // cout << "\n KET THUC.\n";
     return 0;
 }
