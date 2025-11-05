@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/CMakeModules/JoinPaths.cmake
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/cmake_uninstall.cmake.in
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/lib/libzstd.pc.in

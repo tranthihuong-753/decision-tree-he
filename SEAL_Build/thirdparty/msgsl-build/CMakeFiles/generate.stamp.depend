@@ -1,0 +1,7 @@
+# CMake generation dependency list for this directory.
+C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/share/cmake-4.1/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/share/cmake-4.1/Modules/CMakePackageConfigHelpers.cmake
+C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/share/cmake-4.1/Modules/GNUInstallDirs.cmake
+C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/share/cmake-4.1/Modules/WriteBasicConfigVersionFile.cmake
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-src/CMakeLists.txt
+C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-src/cmake/guidelineSupportLibrary.cmake

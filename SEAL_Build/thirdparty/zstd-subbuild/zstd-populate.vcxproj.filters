@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\53f6580cafd0044b508a27a5ee37ab60\zstd-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\fe900a2ae810b6bf3ed2cd894a2c2717\zstd-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\ce2ebc327657d6361f3376b5a847475f\zstd-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\zstd-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{42AC6BC8-94D2-3C04-A62C-C4D9426C8AA5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

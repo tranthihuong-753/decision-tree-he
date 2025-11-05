@@ -1,0 +1,10 @@
+^C:\DECISION-TREE-SEAL\PROJECT_BUILD\CMAKEFILES\CD17481BFBEE8EE07902755FED2DA087\GENERATE.STAMP.RULE
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL -BC:/decision-tree-SEAL/Project_Build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/decision-tree-SEAL/Project_Build/DecisionTreeSEAL.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
