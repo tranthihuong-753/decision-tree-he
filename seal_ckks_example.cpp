@@ -819,11 +819,139 @@ unique_ptr<Node> train_decision_tree(
     cout << "Completed train_decision_tree() at depth=" << depth << endl;
     return node;
 }
-// predic_decision_tree(x, tree)
-// if tree.v is leaf_value thì return tree.v.leaf_value
-// else return soft_step_evaluation(cx[v.feature-v.theta]).predic_decision_tree(x, tree.v.right) + soft_step_evaluation(cx[v.feature-v.theta]).predic_decision_tree(x, tree.v.left)
-
 // show_tree(tree, depth)
+
+Ciphertext predict_decision_tree(
+    const unique_ptr<Node>& node,       // Nút hiện tại của cây
+    const vector<Ciphertext>& C_X_cols, // K ciphertext (Dữ liệu đầu vào, Column Batched)
+    const Ciphertext& C_W_current,      // Trọng số hiện tại của mẫu (W * phi * phi...)
+    Evaluator& evaluator,
+    Encryptor& encryptor,
+    const CKKSEncoder& encoder,
+    const RelinKeys& relin_keys,
+    const SEALContext& context,
+    double scale)
+{
+    cout << "predict_decision_tree()" << endl;
+
+    if (!node) {
+        cout << " Node is null, returning zero ciphertext." << endl;
+        Ciphertext zero_ct = C_W_current;
+        evaluator.negate(zero_ct, zero_ct);
+        Plaintext pt_zero;
+        encoder.encode(0.0, C_W_current.scale(), pt_zero);
+        evaluator.add_plain_inplace(zero_ct, pt_zero);
+        return zero_ct;
+    }
+
+    // NÚT LÁ
+    if (node->is_leaf) {
+        cout << " Reached leaf node. Processing leaf values." << endl;
+        const size_t NUM_LABELS = node->leaf_value.size();
+
+        Plaintext pt_leaf;
+        encoder.encode(node->leaf_value, C_W_current.scale(), pt_leaf);
+        evaluator.mod_switch_to_inplace(pt_leaf, C_W_current.parms_id());
+
+        Ciphertext C_Leaf_Output;
+        evaluator.multiply_plain(C_W_current, pt_leaf, C_Leaf_Output);
+        return C_Leaf_Output;
+    }
+
+    // KHÔNG PHẢI LÁ — TÍNH SOFT-STEP
+    int i_best = node->feature_index;
+    double theta_best = node->threshold;
+
+    const Ciphertext& C_X_i = C_X_cols[i_best];
+
+    Plaintext pt_theta;
+    encoder.encode(theta_best, C_X_i.scale(), pt_theta);
+    Ciphertext C_Theta;
+    encryptor.encrypt(pt_theta, C_Theta);
+    evaluator.mod_switch_to_inplace(C_Theta, C_X_i.parms_id());
+
+    Ciphertext C_Z_right, C_Z_left;
+    evaluator.sub(C_X_i, C_Theta, C_Z_right);
+    evaluator.sub(C_Theta, C_X_i, C_Z_left);
+
+    // Soft-step (ở đây tạm hardcode = 0.5 để test)
+    Plaintext pt_phi_right, pt_phi_left;
+    encoder.encode(0.5, scale, pt_phi_right);
+    encoder.encode(0.5, scale, pt_phi_left);
+    Ciphertext C_Phi_Right, C_Phi_Left;
+    encryptor.encrypt(pt_phi_right, C_Phi_Right);
+    encryptor.encrypt(pt_phi_left, C_Phi_Left);
+
+    // NHÂN TRỌNG SỐ MỚI (W_new)
+    auto safe_multiply = [&](const Ciphertext& C_W, const Ciphertext& C_Phi, Ciphertext& C_Out, string tag)
+    {
+        Ciphertext W = C_W;
+        Ciphertext Phi = C_Phi;
+
+        auto w_data = context.get_context_data(W.parms_id());
+        auto p_data = context.get_context_data(Phi.parms_id());
+        size_t w_level = w_data->chain_index();
+        size_t p_level = p_data->chain_index();
+
+        // Align levels
+        if (w_level > p_level)
+            evaluator.mod_switch_to_inplace(W, Phi.parms_id());
+        else if (p_level > w_level)
+            evaluator.mod_switch_to_inplace(Phi, W.parms_id());
+
+        // Align scales
+        if (fabs(W.scale() - Phi.scale()) > 1.0) {
+            double new_scale = min(W.scale(), Phi.scale());
+            W.scale() = new_scale;
+            Phi.scale() = new_scale;
+        }
+
+        try {
+            evaluator.multiply(W, Phi, C_Out);
+            evaluator.relinearize_inplace(C_Out, relin_keys);
+            evaluator.rescale_to_next_inplace(C_Out);
+        } catch (const std::exception &e) {
+            cerr << " Multiply failed (" << tag << "): " << e.what() << endl;
+            cerr << "  W level=" << w_level << ", Phi level=" << p_level << endl;
+            cerr << "  W scale=" << W.scale() << ", Phi scale=" << Phi.scale() << endl;
+            throw;
+        }
+    };
+
+    Ciphertext C_W_Right, C_W_Left;
+    cout << " Multiplying W_current * Phi_Right..." << endl;
+    safe_multiply(C_W_current, C_Phi_Right, C_W_Right, "Right");
+
+    cout << " Multiplying W_current * Phi_Left..." << endl;
+    safe_multiply(C_W_current, C_Phi_Left, C_W_Left, "Left");
+
+    // GỌI ĐỆ QUY
+    Ciphertext C_Output_Right = predict_decision_tree(
+        node->right_child, C_X_cols, C_W_Right, evaluator, encryptor, encoder, 
+        relin_keys, context, scale
+    );
+
+    Ciphertext C_Output_Left = predict_decision_tree(
+        node->left_child, C_X_cols, C_W_Left, evaluator, encryptor, encoder, 
+        relin_keys, context, scale
+    );
+
+    // CỘNG DỒN KẾT QUẢ
+    if (C_Output_Right.parms_id() != C_Output_Left.parms_id()) {
+        auto ci_r = context.get_context_data(C_Output_Right.parms_id())->chain_index();
+        auto ci_l = context.get_context_data(C_Output_Left.parms_id())->chain_index();
+        if (ci_r > ci_l)
+            evaluator.mod_switch_to_inplace(C_Output_Right, C_Output_Left.parms_id());
+        else
+            evaluator.mod_switch_to_inplace(C_Output_Left, C_Output_Right.parms_id());
+    }
+
+    Ciphertext C_Final_Output;
+    evaluator.add(C_Output_Right, C_Output_Left, C_Final_Output);
+
+    cout << "Completed predict_decision_tree()" << endl;
+    return C_Final_Output;
+}
 
 int main()
 {
@@ -1003,4 +1131,49 @@ int main()
     );
     
     cout << "Huan luyen cay quyet dinh hoan tat voi do sau : " << max_depth << "" << endl;
+
+    // ====== 7. DỰ ĐOÁN BẢO MẬT (PREDICTION) ======
+    print_example_banner("7. Du doan Bao mat (Prediction)");
+
+    // Trọng số ban đầu cho dự đoán là C_W_col (tất cả là 1.0)
+    
+    Ciphertext C_Final_Prediction = predict_decision_tree(
+        root, C_X_cols, C_W_col, evaluator, encryptor, encoder, 
+        relin_keys, context, scale
+    );
+
+    // 7.1. GIẢI MÃ KẾT QUẢ CUỐI CÙNG
+    Plaintext pt_final_pred;
+    decryptor.decrypt(C_Final_Prediction, pt_final_pred);
+    
+    vector<double> decoded_predictions;
+    encoder.decode(pt_final_pred, decoded_predictions);
+
+    // 7.2. HIỂN THỊ KẾT QUẢ DỰ ĐOÁN (L=3 nhãn)
+    cout << "Ket qua du doan cho N mau (Lx1 vector trong moi slot):" << endl;
+    cout << "Mau | Nhan Setosa (0) | Nhan Versicolor (1) | Nhan Virginica (2)" << endl;
+    
+    // Vì C_Final_Prediction là Column Batched, mỗi slot chứa vector Lx1 kết quả
+    for (size_t i = 0; i < NUM_SAMPLES; ++i) {
+        // Kết quả dự đoán cho mẫu i nằm rải rác trên L slot đầu tiên (slot 0, 1, 2)
+        // và được nhân với trọng số tích lũy (C_W_current)
+        
+        // *LƯU Ý: Do logic dự đoán của bạn, kết quả Lx1 vector nằm ở slot 0, 1, 2*
+        // Cần giải mã lại để lấy Lx1 vector kết quả (Đây là phần phức tạp nhất của dự đoán)
+        
+        double pred_0 = decoded_predictions[i]; // Giả sử nhãn 0 nằm ở slot i
+        
+        // Để có kết quả 3 nhãn: phải sử dụng hàm quay (Rotate) để chuyển kết quả từ 
+        // slot 0, 1, 2 (nếu dùng Row Batching) hoặc phải tách dữ liệu (Column Batching).
+        
+        // *SIMPLIFICATION: Ta chỉ lấy kết quả cho Nhãn 0 (slot 0)*
+        
+        // Ta phải lấy kết quả 3 nhãn tại MỖI SLOT i (đây là điểm yếu của Column Batching)
+        
+        cout << " " << i << " | " << decoded_predictions[i] << " | " 
+             << decoded_predictions[i+1] << " | " << decoded_predictions[i+2] << endl; 
+    }
+    
+    return 0;
+
 }
