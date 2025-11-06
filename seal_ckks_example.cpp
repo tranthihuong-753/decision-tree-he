@@ -7,9 +7,14 @@
 #include <random>
 #include <map>
 #include <set>
-
+#include <algorithm> 
 using namespace std;
 using namespace seal;
+
+int max_example = 150; // Số lượng mẫu Iris để đọc từ file CSV
+int max_offset = 64; // leaf_value() nếu kích thước của tập X là N, bạn cần xoay đến N/2 lần, N=70 thì max_offset=64 (2^5<35<2^6 hay 32<35<64)
+size_t MAX_DEGREE = 5; // soft_step_evaluation() Giới hạn bậc đa thức xấp xỉ đến z^4 vì độ phức tạp tính toán
+int NUM_LABELS = 3; // train_decision_tree() Iris-setosa, Iris-versicolor, Iris-virginica
 
 struct Iris {
     vector<double> features; // [sepal_length, sepal_width, petal_length, petal_width]
@@ -17,7 +22,6 @@ struct Iris {
 };
 
 vector<Iris> read_iris_csv(const string &filename) {
-    // in ra "read_iris_csv" 
     cout << "read_iris_csv() Doc du lieu tu file: " << filename << endl;
     vector<Iris> data;
     ifstream file(filename);
@@ -43,7 +47,7 @@ vector<Iris> read_iris_csv(const string &filename) {
         data.push_back(iris);
         // cout << "Read iris: " << iris.label << endl;
         m++;
-        if (m == 5) break; // Chỉ đọc 5 dòng đầu tiên để kiểm tra
+        if (m == max_example) break; // Chỉ đọc 5 dòng đầu tiên để kiểm tra
     }
     file.close();
     return data;
@@ -94,6 +98,15 @@ SplitData split_data(vector<Iris> data, double train_ratio=0.7, double val_ratio
     return split;
 }
 
+// Hàm lấy thông tin của 1 ciphertext 
+void print_ct_info(const SEALContext &context, const Ciphertext &ct, const std::string &name) {
+    auto context_data = context.get_context_data(ct.parms_id());
+    size_t chain_index = context_data->chain_index();
+    cout << name << ": chain_index=" << chain_index 
+         << ", scale=" << ct.scale() << ", pol_mod_deg=" << context_data->parms().poly_modulus_degree()
+         << endl;
+}
+
 // leaf_value(W, Y) = sum(W * Y)
 Ciphertext leaf_value(
     const Ciphertext &C_W_col,         // ciphertext chứa W per slot
@@ -105,21 +118,12 @@ Ciphertext leaf_value(
 {
     cout << "leaf_value()" << endl;
 
-    // Make editable copies (we will mod-switch copies, not originals)
     Ciphertext W = C_W_col;
     Ciphertext Y = C_Y_col;
 
-    // Debug helper
-    auto print_info = [&](const string &name, const Ciphertext &ct) {
-        auto ctx_data = context.get_context_data(ct.parms_id());
-        size_t ci = ctx_data ? ctx_data->chain_index() : -1;
-        cout << name << ": chain_index=" << ci << ", scale=" << ct.scale() << endl;
-    };
+    print_ct_info(context, W, "\tbefore align C_W_col");
+    print_ct_info(context, Y, "\tbefore align C_Y_col");
 
-    print_info("before align W", W);
-    print_info("before align Y", Y);
-
-    // Align levels: mod-switch higher down to lower
     auto w_ci = context.get_context_data(W.parms_id())->chain_index();
     auto y_ci = context.get_context_data(Y.parms_id())->chain_index();
     if (w_ci > y_ci) {
@@ -130,35 +134,27 @@ Ciphertext leaf_value(
         cout << "mod-switched Y down to W's level" << endl;
     }
 
-    print_info("after align W", W);
-    print_info("after align Y", Y);
+    print_ct_info(context, W, "\tafter align C_W_col");
+    print_ct_info(context, Y, "\tafter align C_Y_col");
 
-    // Re-fetch common chain_index and ensure we have at least one level to rescale after multiply.
     size_t common_ci = context.get_context_data(W.parms_id())->chain_index();
     if (common_ci < 1) {
         cerr << "leaf_value ERROR: insufficient levels (common chain_index < 1). Cannot multiply+rescale safely." << endl;
         throw runtime_error("leaf_value: insufficient levels for multiply");
     }
 
-    // Now multiply the ALIGNED copies (IMPORTANT: use W and Y, not originals)
     Ciphertext P;
     try {
-        cout << "1: multiplying aligned W and Y..." << endl;
         evaluator.multiply(W, Y, P);                 // <-- use W and Y, not C_W_col/C_Y_col
-        cout << "2: relinearize..." << endl;
         evaluator.relinearize_inplace(P, relin_keys);
-        cout << "3: rescale..." << endl;
         evaluator.rescale_to_next_inplace(P);
     } catch (const exception &e) {
         cerr << "leaf_value MULTIPLY/RESCALE exception: " << e.what() << endl;
-        print_info("W (at failure)", W);
-        print_info("Y (at failure)", Y);
+        print_ct_info(context, W, "\tW (at failure)");
+        print_ct_info(context, Y, "\tY (at failure)");
         throw;
     }
 
-    // Sum across slots by rotations (use slot_count/2 as safe upper bound)
-    // If you have encoder here you can use encoder.slot_count()/2; otherwise keep conservative value.
-    int max_offset = 1 << 10; // 1024 conservative
     Ciphertext res = P;
     for (int step = 1; step <= max_offset; step *= 2) {
         Ciphertext tmp;
@@ -166,22 +162,14 @@ Ciphertext leaf_value(
         evaluator.add_inplace(res, tmp);
     }
 
-    cout << "Completed leaf_value()" << endl;
+    cout << "Completed leaf_value() = " << endl;
     return res;
 }
 
-// Hàm lấy thông tin của 1 ciphertext 
-void print_ct_info(const SEALContext &context, const Ciphertext &ct, const std::string &name) {
-    auto context_data = context.get_context_data(ct.parms_id());
-    size_t chain_index = context_data->chain_index();
-    cout << name << ": chain_index=" << chain_index 
-         << ", scale=" << ct.scale() << ", pol_mod_deg=" << context_data->parms().poly_modulus_degree()
-         << endl;
-}
-
-// soft_step(hệ số bậc 16 đã dùng code python tính toán)
+// soft_step_evaluation(hệ số bậc 16 đã dùng code python tính toán)
 const vector<double> SOFT_STEP_COEFFICIENTS_16 = {
     // c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16
+     5.00000000e-01,  2.11445799e+00,  1.15591931e-10, -6.38009501e+00,
     5.00000000e-01,  2.11445799e+00,  1.15591931e-10, -6.38009501e+00,
    -4.91650318e-10,  1.09534390e+01,  8.95471329e-10, -1.01295272e+01,
    -8.38669100e-10,  5.27558906e+00,  4.36355800e-10, -1.54908047e-01, // Sửa: Giảm 1 bậc mũ của 1.54908047e+00 để phù hợp với kết quả
@@ -189,6 +177,8 @@ const vector<double> SOFT_STEP_COEFFICIENTS_16 = {
    -1.22081599e-12
 };
 
+// 1. Tạo vector lưu các lũy thừa của z: z^1, z^2, z^3, ...
+// 2. Tính tổng đa thức: c0 + c1*[[z^1]] + c2*[[z^2]] + ... + c16*[[z^16]]
 Ciphertext soft_step_evaluation(
     const Ciphertext &encrypted_z, // z = cx - theta
     Evaluator &evaluator,
@@ -199,28 +189,24 @@ Ciphertext soft_step_evaluation(
     const SEALContext &context)
 {
     cout << "soft_step_evaluation()" << endl;
-    const size_t MAX_DEGREE = 3; // Giới hạn bậc đa thức xấp xỉ đến z^4 vì độ phức tạp tính toán
-    // 1) Tạo vector lưu các lũy thừa của z: z^1, z^2, z^3, ...
+    // 1. Tạo vector lưu các lũy thừa của z: z^1, z^2, z^3, ...
     vector<Ciphertext> powers;
     powers.reserve(MAX_DEGREE + 1); // powers.reserve(SOFT_STEP_COEFFICIENTS_16.size());
     powers.push_back(encrypted_z); // z^1
 
-    // IMPORTANT: đảm bảo encrypted_z đã ở đúng level và scale ban đầu mong muốn, i < SOFT_STEP_COEFFICIENTS_16.size() là bão hòa nhưng máy cấu hình kém 
+    // Tính toán các Lũy thừa của z 
+    // đảm bảo encrypted_z=cx - theta đã ở đúng level và scale ban đầu mong muốn, i < SOFT_STEP_COEFFICIENTS_16.size() là bão hòa nhưng máy cấu hình kém 
     for (size_t i = 1; i < MAX_DEGREE; ++i) {
         // cout << " Computing power z^" << (i+1) << endl;
-
-        // Tạo bản sao của encrypted_z và mod-switch nó về level của powers.back()
         Ciphertext z_for_mul = encrypted_z;
         if (z_for_mul.parms_id() != powers.back().parms_id()) {
             evaluator.mod_switch_to_inplace(z_for_mul, powers.back().parms_id());
         }
 
-        // (Tùy chọn) kiểm tra scale tương đương (chỉ log, không cố gắng thay đổi)
         double s1 = powers.back().scale();
         double s2 = z_for_mul.scale();
         // cout << "  scales before mul: power=" << s1 << ", z_copy=" << s2 << endl;
 
-        // Multiply (giờ cả 2 cùng parms_id)
         Ciphertext tmp;
         try {
             evaluator.multiply(powers.back(), z_for_mul, tmp); // tmp scale ≈ s1 * s2
@@ -238,16 +224,15 @@ Ciphertext soft_step_evaluation(
         powers.push_back(tmp);
     }
 
-    // 2) Mã hoá hệ số tự do c0 và khởi tạo result
     Plaintext c0_plain;
     encoder.encode(SOFT_STEP_COEFFICIENTS_16[0], scale, c0_plain);
 
     Ciphertext result;
     encryptor.encrypt(c0_plain, result); // dùng Encryptor, không phải Evaluator
 
-    // Mod-switch result xuống level cuối cùng của các lũy thừa (powers[MAX_DEGREE - 1])
     evaluator.mod_switch_to_inplace(result, powers.back().parms_id());
 
+    // 2. Tính tổng đa thức: c0 + c1*[[z^1]] + c2*[[z^2]] + ... + c16*[[z^16]]
     for (size_t i = 1; i < MAX_DEGREE; ++i) { // i < SOFT_STEP_COEFFICIENTS_16.size()
         // cout << " Adding term for z^" << i << endl;
 
@@ -269,16 +254,12 @@ Ciphertext soft_step_evaluation(
         // 2.3 Nhân: term = coeff * z^i
         Ciphertext term;
         evaluator.multiply_plain(power, coeff_plain, term);
-        // kết quả term có cùng parms_id với power; scale của term là power.scale() * power_scale (≈ scale^2)
-        evaluator.rescale_to_next_inplace(term);   // rescale để đưa scale về ~scale
+        evaluator.rescale_to_next_inplace(term);   
 
-        // 2.4 Điều chỉnh levels/parms_id: trước khi cộng, result và term phải cùng parms_id
-        // target là parms_id của result (đã mod-switched trước vòng lặp)
         auto target_parms_id = result.parms_id();
         if (term.parms_id() != target_parms_id) {
             evaluator.mod_switch_to_inplace(term, target_parms_id);
         }
-        // cộng term vào result
         term.scale() = result.scale();
         evaluator.add_inplace(result, term);
     }
@@ -286,12 +267,12 @@ Ciphertext soft_step_evaluation(
     return result;
 }
 
-// split(W, Y, X) = sum(W, soft_step_evaluation(cx[i]-theta), cyx)
+// compute_weighted_counts_homo(W, Y, X) = sum(W, soft_step_evaluation(cx[i]-theta), cyx)
 pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     int feature_idx,
     double threshold,
     const vector<Ciphertext>& C_X_cols, // K ciphertext
-    const Ciphertext& C_W_col,          // 1 ciphertext
+    const Ciphertext& C_W_col,          // 1 ciphertextMULTIPLY EXCEPTION
     const vector<Ciphertext>& C_Y_cols,   // L ciphertext
     Evaluator& evaluator,
     Encryptor& encryptor,
@@ -302,6 +283,7 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     double scale,
     size_t num_samples)
 {
+    cout << "compute_weighted_counts_homo()" << endl;
     // Helper: align levels then multiply (safe)
     auto align_and_multiply = [&](const Ciphertext &A, const Ciphertext &B, Ciphertext &Out) {
         // Make copies so originals are not mutated
@@ -374,19 +356,19 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     // cout << "Tinh Soft-Step" << endl;
     // Tính Soft-Step: Phi(Z_right) và Phi(Z_left)
     // *Lưu ý: Phải đảm bảo soft_step_evaluation đã được cập nhật đúng tham số*
-    // Ciphertext C_Phi_Right = soft_step_evaluation(
-    //     C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
-    // Ciphertext C_Phi_Left = soft_step_evaluation(
-    //     C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    Ciphertext C_Phi_Right = soft_step_evaluation(
+        C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    Ciphertext C_Phi_Left = soft_step_evaluation(
+        C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
 
     // --- DEBUG: skip soft_step_evaluation, use constant Phi ---
-    Plaintext pt_phi_right, pt_phi_left;
-    encoder.encode(0.5, scale, pt_phi_right); // or 1.0, tuỳ bạn
-    encoder.encode(0.5, scale, pt_phi_left);
+    // Plaintext pt_phi_right, pt_phi_left;
+    // encoder.encode(0.5, scale, pt_phi_right); // or 1.0, tuỳ bạn
+    // encoder.encode(0.5, scale, pt_phi_left);
 
-    Ciphertext C_Phi_Right, C_Phi_Left;
-    encryptor.encrypt(pt_phi_right, C_Phi_Right);
-    encryptor.encrypt(pt_phi_left, C_Phi_Left);
+    // Ciphertext C_Phi_Right, C_Phi_Left;
+    // encryptor.encrypt(pt_phi_right, C_Phi_Right);
+    // encryptor.encrypt(pt_phi_left, C_Phi_Left);
 
     // Tính W_phi = W * Phi
     // cout << "Tinh W_Phi" << endl;
@@ -436,8 +418,8 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
 
         // ======================= Diagnostic prints BEFORE the failing multiply =======================
         // Right after you computed C_W_Phi_Right and C_W_Phi_Left (they exist here)
-        print_ct_debug("DBG C_W_Phi_Right", C_W_Phi_Right);
-        print_ct_debug("DBG C_W_Phi_Left", C_W_Phi_Left);
+        // print_ct_debug("DBG C_W_Phi_Right", C_W_Phi_Right);
+        // print_ct_debug("DBG C_W_Phi_Left", C_W_Phi_Left);
 
         // Print one Y column (we will iterate, but start with l=0)
         for (size_t l = 0; l < NUM_LABELS; ++l) {
@@ -556,19 +538,6 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     return {C_right_counts, C_left_counts};
 }
 
-// total_side() = sum(side[i, theta][l]) với side={left, right}, side[i, theta][l] là số mẫu ở nút con bên trái/phải có nhãn l
-
-// gini_weight() = sum_side(1-sum_l((side[i, theta][l])/total_side)^2).total_side[i, theta] với side={left, right}
-
-// gini_theta_best() = min_theta(gini_weight())
-
-// train_decision_tree(X, Y, W, depth, v={v.leaf_value hoặc v.right/v.leaf})
-// if depth >= max_depth thì return leaf_value(W, Y)
-// else
-// each i, theta: compute gini_theta_best()
-// cập nhật v.feature, v.threshold, wx_right, wx_left
-// return train_decision_tree(X, Y, W_left, depth+1, v_left) và train_decision_tree(X, Y, W_right, depth+1, v_right)
-
 struct Node {
     bool is_leaf = false;
     // Giá trị nút lá (Nếu là lá, kích thước Lx1)
@@ -583,11 +552,12 @@ struct Node {
     unique_ptr<Node> right_child = nullptr;
 };
 
-// Tính độ tạp Gini (Gini Impurity) cho một phân chia cụ thể
+// compute_gini_impurity() Tính độ tạp Gini (Gini Impurity) cho một phân chia cụ thể
 double compute_gini_impurity(
     const vector<double>& right_counts, // Vector Lx1 cleartext (tổng trọng số bên phải)
     const vector<double>& left_counts)  // Vector Lx1 cleartext (tổng trọng số bên trái)
 {
+    cout << "compute_gini_impurity()" << endl;
     // Tính tổng trọng số mẫu ở mỗi bên
     double total_right = 0.0;
     for (double count : right_counts) total_right += count;
@@ -618,6 +588,7 @@ double compute_gini_impurity(
         gini_left = (1.0 - sum_sq) * (1 / total_all);
     }
 
+    cout << "Completed compute_gini_impurity()" << endl;
     return gini_right + gini_left;
 }
 
@@ -660,18 +631,18 @@ pair<Ciphertext, Ciphertext> compute_W_phi_best(
     evaluator.sub(C_Theta, C_X_cols[best_feature], C_Z_left); 
 
     // Soft-Step
-    // Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
-    // Ciphertext C_Phi_Left = soft_step_evaluation(C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    Ciphertext C_Phi_Left = soft_step_evaluation(C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    
     // --- DEBUG: skip soft_step_evaluation, use constant Phi ---
-    cout << " 2" << endl;
-    Plaintext pt_phi_right, pt_phi_left;
-    encoder.encode(0.5, scale, pt_phi_right); // or 1.0, tuỳ bạn
-    encoder.encode(0.5, scale, pt_phi_left);
-
-    cout << " 3" << endl;
-    Ciphertext C_Phi_Right, C_Phi_Left;
-    encryptor.encrypt(pt_phi_right, C_Phi_Right);
-    encryptor.encrypt(pt_phi_left, C_Phi_Left);
+    // cout << " 2" << endl;
+    // Plaintext pt_phi_right, pt_phi_left;
+    // encoder.encode(0.5, scale, pt_phi_right); // or 1.0, tuỳ bạn
+    // encoder.encode(0.5, scale, pt_phi_left);
+    // cout << " 3" << endl;
+    // Ciphertext C_Phi_Right, C_Phi_Left;
+    // encryptor.encrypt(pt_phi_right, C_Phi_Right);
+    // encryptor.encrypt(pt_phi_left, C_Phi_Left);
 
     // W_new = W * Phi
     Ciphertext C_W_new_right, C_W_new_left;
@@ -684,7 +655,6 @@ pair<Ciphertext, Ciphertext> compute_W_phi_best(
     return {C_W_new_right, C_W_new_left};
 }
 
-int NUM_LABELS = 3; // Iris-setosa, Iris-versicolor, Iris-virginica
 unique_ptr<Node> train_decision_tree(
     const vector<Ciphertext>& C_X_cols,
     const Ciphertext& C_W_col, 
@@ -709,13 +679,13 @@ unique_ptr<Node> train_decision_tree(
 
     // 1. ĐIỀU KIỆN DỪNG
     if (depth >= max_depth) {
-        cout << " Reached max depth. Creating leaf node." << endl;
+        // cout << " Reached max depth. Creating leaf node." << endl;
         node->is_leaf = true;
         node->leaf_value.resize(NUM_LABELS); // Khởi tạo vector kết quả Lx1
 
         // Lặp qua TẤT CẢ L nhãn để tính tổng trọng số cho từng nhãn
         for (size_t l = 0; l < NUM_LABELS; ++l) {
-            cout << "  Computing leaf value for label " << l << endl;
+            // cout << "  Computing leaf value for label " << l << endl;
             // 1.1. TÍNH TỔNG TRỌNG SỐ ĐỒNG HÌNH (C_W * C_Y[l])
             Ciphertext C_weighted_sum = leaf_value(
                 C_W_col, C_Y_cols[l], evaluator, relin_keys, galois_keys, context 
@@ -732,7 +702,7 @@ unique_ptr<Node> train_decision_tree(
             node->leaf_value[l] = decoded_result[0];
         }
         
-        cout << "Created leaf node at depth=" << depth << " with values: ";
+        // cout << "Created leaf node at depth=" << depth << " with values: ";
         return node; 
     }
 
@@ -819,7 +789,6 @@ unique_ptr<Node> train_decision_tree(
     cout << "Completed train_decision_tree() at depth=" << depth << endl;
     return node;
 }
-// show_tree(tree, depth)
 
 Ciphertext predict_decision_tree(
     const unique_ptr<Node>& node,       // Nút hiện tại của cây
@@ -835,7 +804,7 @@ Ciphertext predict_decision_tree(
     cout << "predict_decision_tree()" << endl;
 
     if (!node) {
-        cout << " Node is null, returning zero ciphertext." << endl;
+        // cout << " Node is null, returning zero ciphertext." << endl;
         Ciphertext zero_ct = C_W_current;
         evaluator.negate(zero_ct, zero_ct);
         Plaintext pt_zero;
@@ -846,7 +815,7 @@ Ciphertext predict_decision_tree(
 
     // NÚT LÁ
     if (node->is_leaf) {
-        cout << " Reached leaf node. Processing leaf values." << endl;
+        // cout << " Reached leaf node. Processing leaf values." << endl;
         const size_t NUM_LABELS = node->leaf_value.size();
 
         Plaintext pt_leaf;
@@ -919,10 +888,10 @@ Ciphertext predict_decision_tree(
     };
 
     Ciphertext C_W_Right, C_W_Left;
-    cout << " Multiplying W_current * Phi_Right..." << endl;
+    // cout << " Multiplying W_current * Phi_Right..." << endl;
     safe_multiply(C_W_current, C_Phi_Right, C_W_Right, "Right");
 
-    cout << " Multiplying W_current * Phi_Left..." << endl;
+    // cout << " Multiplying W_current * Phi_Left..." << endl;
     safe_multiply(C_W_current, C_Phi_Left, C_W_Left, "Left");
 
     // GỌI ĐỆ QUY
@@ -953,6 +922,67 @@ Ciphertext predict_decision_tree(
     return C_Final_Output;
 }
 
+void calculate_accuracy(
+    const std::vector<double>& decoded_predictions, 
+    const std::vector<std::vector<double>>& Y_test_onehot,
+    size_t num_samples,
+    size_t num_labels) 
+{
+    cout << "calculate_accuracy()" << endl;
+    
+    if (decoded_predictions.size() < num_samples * num_labels) {
+        std::cerr << "Loi: Kich thuoc decoded_predictions khong du." << std::endl;
+        return;
+    }
+
+    int correct_predictions = 0;
+
+    for (size_t i = 0; i < num_samples; ++i) {
+        // 1. Xác định Nhãn Dự đoán (Predicted Label)
+        std::vector<double> sample_scores;
+        for (size_t j = 0; j < num_labels; ++j) {
+            // Lấy score của nhãn j cho mẫu i. Giả định dữ liệu giải mã liền kề.
+            sample_scores.push_back(decoded_predictions[i * num_labels + j]);
+        }
+
+        // Tìm chỉ mục (index) của điểm số lớn nhất (Predicted Label)
+        auto max_it = std::max_element(sample_scores.begin(), sample_scores.end());
+        int predicted_label = std::distance(sample_scores.begin(), max_it);
+
+        // 2. Xác định Nhãn Thực tế (True Label)
+        // Tìm chỉ mục (index) của giá trị 1.0 trong vector one-hot
+        size_t true_label = -1;
+        for (size_t j = 0; j < num_labels; ++j) {
+            // Sử dụng một ngưỡng nhỏ để tính nhãn (vì có thể có lỗi làm tròn)
+            if (std::abs(Y_test_onehot[i][j] - 1.0) < 1e-6) { 
+                true_label = j;
+                break;
+            }
+        }
+
+        // 3. So sánh
+        if (predicted_label == true_label) {
+            correct_predictions++;
+        }
+        
+        // Optional: In chi tiết từng mẫu
+        /*
+        std::cout << "Mau " << i << ": True=" << true_label 
+                  << ", Predicted=" << predicted_label 
+                  << (predicted_label == true_label ? " (CORRECT)" : " (INCORRECT)") 
+                  << std::endl;
+        */
+    }
+
+    // 4. Tính và Hiển thị Accuracy
+    double accuracy = (double)correct_predictions / num_samples;
+    std::cout << "\nTong so mau: " << num_samples << std::endl;
+    std::cout << "Du doan dung: " << correct_predictions << std::endl;
+    std::cout << "**Accuracy: " << std::fixed << std::setprecision(4) << accuracy << "**" << std::endl;
+
+    cout << "Completed calculate_accuracy()" << endl;
+}
+
 int main()
 {
     // ====== 1. Thiết lập tham số CKKS ======
@@ -961,7 +991,7 @@ int main()
     size_t poly_modulus_degree = 16384; // Tăng bậc đa thức để thêm chỗ cho moduli
     parms.set_poly_modulus_degree(poly_modulus_degree);
 
-    // Chuỗi 6 moduli là đủ cho soft-step-16
+    // Chuỗi 6 modulo là đủ cho soft-step-16
     parms.set_coeff_modulus(CoeffModulus::Create(
         poly_modulus_degree,
         {60, 40, 40, 40, 40, 40, 40, 40, 60}
@@ -1058,16 +1088,6 @@ int main()
     size_t slot_count = encoder.slot_count();
     cout << "So luong mau co the dong goi Slot count: " << slot_count << endl; // 4096
 
-    // 5.1 Mã hóa C_W_col kich thước Nx1 (mỗi ciphertext kích thước 1x1)
-    // vector<double> W_train(NUM_SAMPLES, 1.0); // Trọng số W khởi tạo là 1.0 cho tất cả mẫu kich thước Nx1
-    // vector<Ciphertext> C_W_col(NUM_SAMPLES);
-    // for (size_t j = 0; j < Y_train_onehot.size() ; ++j) {
-    //     // cout << "Ma hoa nhan cho dac trung W thu " << j+1 << "..." << endl;
-    //     Plaintext ptw;
-    //     encoder.encode(W_train[j], scale, ptw); 
-    //     encryptor.encrypt(ptw, C_W_col[j]);
-    // }
-
     // 5.1 Mã hóa C_W_col kich thước 1x1 (mỗi plaintext kích thước Nx1)
     vector<double> W_train(NUM_SAMPLES, 1.0);
     Ciphertext C_W_col;
@@ -1112,6 +1132,50 @@ int main()
     //     encryptor.encrypt(pty, C_Y[j]);
     // }
     
+
+    //???
+    vector<vector<double>> X_test, Y_test_onehot;
+    extract_data(split.test, X_test, Y_test_onehot); // X_test là ma trận NxK (70x7) ,Y_test_onehot là ma trận N x L (70x3)
+
+    const size_t NUM_SAMPLES_TEST = X_test.size();
+    const size_t NUM_FEATURES_TEST = X_test[0].size(); // K = 4 features
+    cout << "\nSo mau test (N): " << NUM_SAMPLES_TEST // 
+            << ", So dac trung (K): " << NUM_FEATURES_TEST //
+            << ", So nhan (L): " << NUM_LABELS << endl; // 
+
+    vector<double> W_train_test (NUM_SAMPLES_TEST, 1.0);
+    Ciphertext C_W_col_test ;
+    Plaintext ptw_test ;
+    encoder.encode(W_train_test , scale, ptw_test ); 
+    encryptor.encrypt(ptw_test , C_W_col_test );
+
+    vector<vector<double>> X_test_T(NUM_FEATURES_TEST, vector<double>(NUM_SAMPLES_TEST, 0.0)); // ma trận KxN
+    vector<vector<double>> Y_test_T(NUM_LABELS, vector<double>(NUM_SAMPLES_TEST, 0.0)); // ma trận LxN
+    for (size_t i = 0; i < NUM_SAMPLES_TEST; ++i) {
+        for (size_t j = 0; j < NUM_FEATURES_TEST; ++j) {
+            X_test_T[j][i] = X_test[i][j]; // Đặc trưng j, mẫu i
+        }
+        for (size_t l = 0; l < NUM_LABELS; ++l) {
+            Y_test_T[l][i] = Y_test_onehot[i][l]; // Nhãn l, mẫu i
+        }
+    }
+
+    vector<Ciphertext> C_X_cols_test(NUM_FEATURES_TEST); // Kích thước K (số đặc trưng)
+    for (size_t j = 0; j < NUM_FEATURES_TEST; ++j) {
+        Plaintext ptx;
+        encoder.encode(X_test_T[j], scale, ptx); 
+        encryptor.encrypt(ptx, C_X_cols_test[j]);
+    }
+
+    vector<Ciphertext> C_Y_col_test(NUM_LABELS); // Kích thước K (số đặc trưng)
+    for (size_t j = 0; j < NUM_LABELS; ++j) {
+        Plaintext ptx;
+        encoder.encode(Y_test_T[j], scale, ptx); 
+        encryptor.encrypt(ptx, C_Y_col_test[j]);
+    }
+
+    //???
+
     // 6. Tree training và các bước tiếp theo...
     print_example_banner("6. Tree training va cac buoc tiep theo");   
     set<double> unique_thresholds_set;
@@ -1138,7 +1202,7 @@ int main()
     // Trọng số ban đầu cho dự đoán là C_W_col (tất cả là 1.0)
     
     Ciphertext C_Final_Prediction = predict_decision_tree(
-        root, C_X_cols, C_W_col, evaluator, encryptor, encoder, 
+        root, C_X_cols_test, C_W_col_test, evaluator, encryptor, encoder, 
         relin_keys, context, scale
     );
 
@@ -1150,30 +1214,51 @@ int main()
     encoder.decode(pt_final_pred, decoded_predictions);
 
     // 7.2. HIỂN THỊ KẾT QUẢ DỰ ĐOÁN (L=3 nhãn)
+    // 7.2. HIỂN THỊ KẾT QUẢ DỰ ĐOÁN (L=3 nhãn)
     cout << "Ket qua du doan cho N mau (Lx1 vector trong moi slot):" << endl;
-    cout << "Mau | Nhan Setosa (0) | Nhan Versicolor (1) | Nhan Virginica (2)" << endl;
-    
-    // Vì C_Final_Prediction là Column Batched, mỗi slot chứa vector Lx1 kết quả
-    for (size_t i = 0; i < NUM_SAMPLES; ++i) {
-        // Kết quả dự đoán cho mẫu i nằm rải rác trên L slot đầu tiên (slot 0, 1, 2)
-        // và được nhân với trọng số tích lũy (C_W_current)
-        
-        // *LƯU Ý: Do logic dự đoán của bạn, kết quả Lx1 vector nằm ở slot 0, 1, 2*
-        // Cần giải mã lại để lấy Lx1 vector kết quả (Đây là phần phức tạp nhất của dự đoán)
-        
-        double pred_0 = decoded_predictions[i]; // Giả sử nhãn 0 nằm ở slot i
-        
-        // Để có kết quả 3 nhãn: phải sử dụng hàm quay (Rotate) để chuyển kết quả từ 
-        // slot 0, 1, 2 (nếu dùng Row Batching) hoặc phải tách dữ liệu (Column Batching).
-        
-        // *SIMPLIFICATION: Ta chỉ lấy kết quả cho Nhãn 0 (slot 0)*
-        
-        // Ta phải lấy kết quả 3 nhãn tại MỖI SLOT i (đây là điểm yếu của Column Batching)
-        
-        cout << " " << i << " | " << decoded_predictions[i] << " | " 
-             << decoded_predictions[i+1] << " | " << decoded_predictions[i+2] << endl; 
-    }
-    
-    return 0;
+    cout << "Mau | Nhan Setosa (0) | Nhan Versicolor (1) | Nhan Virginica (2) | Nhan Du Doan Cuoi" << endl;
+    cout << "----|-----------------|---------------------|--------------------|-------------------" << endl;
 
+    // L = 3 nhãn (số lượng lớp)
+    const size_t L_NUM_LABELS = 3; 
+
+    for (size_t i = 0; i < NUM_SAMPLES_TEST; ++i) {
+        
+        // Giả định: Kết quả cho mẫu i nằm ở các vị trí i, i+1, i+2 trong decoded_predictions
+        // (Đây là giả định dựa trên cách in của bạn, phù hợp với Column Batching)
+        
+        double score_setosa = decoded_predictions[i];
+        double score_versicolor = decoded_predictions[i + 1];
+        double score_virginica = decoded_predictions[i + 2];
+
+        // Tạo vector để tìm max
+        vector<double> scores = {score_setosa, score_versicolor, score_virginica};
+        
+        // Tìm điểm số lớn nhất
+        double max_score = scores[0];
+        size_t final_label = 0;
+
+        for (size_t j = 1; j < L_NUM_LABELS; ++j) {
+            if (scores[j] > max_score) {
+                max_score = scores[j];
+                final_label = j;
+            }
+        }
+        
+        // In kết quả chi tiết
+        cout << setw(3) << i << " | " 
+            << setw(15) << fixed << setprecision(5) << score_setosa << " | " 
+            << setw(19) << fixed << setprecision(5) << score_versicolor << " | " 
+            << setw(18) << fixed << setprecision(5) << score_virginica << " | "
+            << setw(16) << final_label << " (" << max_score << ")" << endl;
+    }
+
+    calculate_accuracy(
+        decoded_predictions, 
+        Y_test_onehot, 
+        NUM_SAMPLES_TEST, 
+        L_NUM_LABELS
+    );
+
+    return 0;
 }
