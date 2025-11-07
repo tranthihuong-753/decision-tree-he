@@ -15,3 +15,7 @@ cd Project_Build
 cmake --build . --config Release
 
 Release\seal_ckks_example.exe
+
+## Accuracy 
+
+0.33 
