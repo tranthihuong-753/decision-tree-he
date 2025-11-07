@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(zlib-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/madler/zlib.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf"
-                    SOURCE_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-src"
-                    BINARY_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build"
+                    SOURCE_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-src"
+                    BINARY_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

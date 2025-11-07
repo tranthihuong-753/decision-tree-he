@@ -1,8 +1,8 @@
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-MKDIR.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-MKDIR.RULE
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcfgdir=/Debug -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-mkdirs.cmake
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcfgdir=/Debug -P C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-mkdirs.cmake
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-mkdir
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-mkdir
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -10,15 +10,15 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-DOWNLOAD.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-DOWNLOAD.RULE
 setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-gitclone.cmake
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-gitclone.cmake
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-download
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-download
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -26,13 +26,13 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-UPDATE.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-UPDATE.RULE
 setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-gitupdate.cmake
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/tmp/zstd-populate-gitupdate.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -40,11 +40,11 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-PATCH.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-PATCH.RULE
 setlocal
 C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-patch
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-patch
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -52,31 +52,15 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-CONFIGURE.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-CONFIGURE.RULE
 setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build
-if %errorlevel% neq 0 goto :cmEnd
-C:
-if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
-if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-configure
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-BUILD.RULE
-setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-build
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-configure
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -84,15 +68,15 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-INSTALL.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-BUILD.RULE
 setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-install
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-build
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -100,15 +84,15 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\53F6580CAFD0044B508A27A5EE37AB60\ZSTD-POPULATE-TEST.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-INSTALL.RULE
 setlocal
-cd C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build
 if %errorlevel% neq 0 goto :cmEnd
 C:
 if %errorlevel% neq 0 goto :cmEnd
 C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-test
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-install
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -116,13 +100,15 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\FE900A2AE810B6BF3ED2CD894A2C2717\ZSTD-POPULATE-COMPLETE.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\6866B4101805F99BA4FDC16131626284\ZSTD-POPULATE-TEST.RULE
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E make_directory C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/Debug
+cd C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/Debug/zstd-populate-complete
+C:
 if %errorlevel% neq 0 goto :cmEnd
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-done
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-test
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -130,7 +116,21 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\CE2EBC327657D6361F3376B5A847475F\ZSTD-POPULATE.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\DAF20B5085D6D7C97AD2A30817353E8B\ZSTD-POPULATE-COMPLETE.RULE
+setlocal
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E make_directory C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/Debug/zstd-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -E touch C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/zstd-populate-prefix/src/zstd-populate-stamp/Debug/zstd-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKEFILES\03878384596D72AC002FD33A8EC44FB1\ZSTD-POPULATE.RULE
 setlocal
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -138,9 +138,9 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKELISTS.TXT
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZSTD-SUBBUILD\CMAKELISTS.TXT
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild -BC:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild -BC:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-subbuild/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

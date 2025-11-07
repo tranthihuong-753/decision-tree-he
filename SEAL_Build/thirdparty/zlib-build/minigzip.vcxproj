@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{65553C7C-6D17-345F-8125-7DF9FC0810F1}</ProjectGuid>
+    <ProjectGuid>{66BB93B4-FBBA-3530-AB8A-6E22C0F20A79}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\bin\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\hu\decision-tree-he\SEAL_Build\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">minigzip.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">minigzip</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\decision-tree-SEAL\SEAL_Build\bin\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\hu\decision-tree-he\SEAL_Build\bin\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">minigzip.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">minigzip</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\decision-tree-SEAL\SEAL_Build\bin\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\hu\decision-tree-he\SEAL_Build\bin\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">minigzip.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">minigzip</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\decision-tree-SEAL\SEAL_Build\bin\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\hu\decision-tree-he\SEAL_Build\bin\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">minigzip.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">minigzip</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -109,10 +109,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -127,9 +127,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/decision-tree-SEAL/SEAL_Build/lib/Debug/minigzip.lib</ImportLibrary>
+      <ImportLibrary>C:/hu/decision-tree-he/SEAL_Build/lib/Debug/minigzip.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/decision-tree-SEAL/SEAL_Build/bin/Debug/minigzip.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/hu/decision-tree-he/SEAL_Build/bin/Debug/minigzip.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -139,7 +139,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>
@@ -163,10 +163,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -181,9 +181,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/decision-tree-SEAL/SEAL_Build/lib/Release/minigzip.lib</ImportLibrary>
+      <ImportLibrary>C:/hu/decision-tree-he/SEAL_Build/lib/Release/minigzip.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/decision-tree-SEAL/SEAL_Build/bin/Release/minigzip.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/hu/decision-tree-he/SEAL_Build/bin/Release/minigzip.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -193,7 +193,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>
@@ -217,10 +217,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -235,9 +235,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/decision-tree-SEAL/SEAL_Build/lib/MinSizeRel/minigzip.lib</ImportLibrary>
+      <ImportLibrary>C:/hu/decision-tree-he/SEAL_Build/lib/MinSizeRel/minigzip.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/decision-tree-SEAL/SEAL_Build/bin/MinSizeRel/minigzip.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/hu/decision-tree-he/SEAL_Build/bin/MinSizeRel/minigzip.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -247,7 +247,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -270,10 +270,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build;C:\decision-tree-SEAL\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build;C:\hu\decision-tree-he\SEAL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -288,9 +288,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/decision-tree-SEAL/SEAL_Build/lib/RelWithDebInfo/minigzip.lib</ImportLibrary>
+      <ImportLibrary>C:/hu/decision-tree-he/SEAL_Build/lib/RelWithDebInfo/minigzip.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/decision-tree-SEAL/SEAL_Build/bin/RelWithDebInfo/minigzip.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/hu/decision-tree-he/SEAL_Build/bin/RelWithDebInfo/minigzip.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -299,11 +299,11 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\CMakeLists.txt">
+    <CustomBuild Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -311,12 +311,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -324,12 +324,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -337,12 +337,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-src/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -350,24 +350,24 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckCSourceCompiles.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckFunctionExists.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFile.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckIncludeFileCXX.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\CheckTypeSize.cmake;C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\share\cmake-4.1\Modules\Internal\CheckSourceCompiles.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zconf.h.cmakein;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\zlib.pc.cmakein;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-src\test\minigzip.c" />
+    <ClCompile Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-src\test\minigzip.c" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\decision-tree-SEAL\SEAL_Build\ZERO_CHECK.vcxproj">
-      <Project>{8E50AD39-A0E2-3A49-AA55-E97F11A5077D}</Project>
+    <ProjectReference Include="C:\hu\decision-tree-he\SEAL_Build\ZERO_CHECK.vcxproj">
+      <Project>{46985627-969C-3A21-9218-1BA9D88C2C31}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zlib-build\zlib.vcxproj">
-      <Project>{33A5B066-8436-35EB-B8E4-9582292F0294}</Project>
+    <ProjectReference Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zlib-build\zlib.vcxproj">
+      <Project>{B1DAE0B8-BABD-39E4-A302-6A5629BE84F3}</Project>
       <Name>zlib</Name>
     </ProjectReference>
   </ItemGroup>

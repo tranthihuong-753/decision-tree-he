@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\ce2ebc327657d6361f3376b5a847475f\generate.stamp.rule">
+    <CustomBuild Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-subbuild\CMakeFiles\03878384596d72ac002fd33a8ec44fb1\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{42AC6BC8-94D2-3C04-A62C-C4D9426C8AA5}</UniqueIdentifier>
+      <UniqueIdentifier>{A50138AA-A36D-33A0-8949-238D03D5BB05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

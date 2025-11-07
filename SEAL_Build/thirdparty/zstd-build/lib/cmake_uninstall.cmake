@@ -1,9 +1,9 @@
  
-if(NOT EXISTS "C:/decision-tree-SEAL/SEAL_Build/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: C:/decision-tree-SEAL/SEAL_Build/install_manifest.txt")
+if(NOT EXISTS "C:/hu/decision-tree-he/SEAL_Build/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: C:/hu/decision-tree-he/SEAL_Build/install_manifest.txt")
 endif()
 
-file(READ "C:/decision-tree-SEAL/SEAL_Build/install_manifest.txt" files)
+file(READ "C:/hu/decision-tree-he/SEAL_Build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

@@ -1,6 +1,6 @@
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKELISTS.TXT
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\MSGSL-SUBBUILD\CMAKELISTS.TXT
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild -BC:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-subbuild -BC:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-subbuild --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-subbuild/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

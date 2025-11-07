@@ -11,7 +11,7 @@
 
   <PropertyGroup>
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>C:/decision-tree-SEAL/SEAL_Build/bin/dotnet/$(Configuration)</OutputPath>
+    <OutputPath>C:/hu/decision-tree-he/SEAL_Build/bin/dotnet/$(Configuration)</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(Windows))" Include="C:/decision-tree-SEAL/SEAL_Build/bin/Release\sealc.dll" />
-    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(Linux))" Include="C:/decision-tree-SEAL/SEAL_Build/lib/libsealc.so*" />
-    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(OSX))" Include="C:/decision-tree-SEAL/SEAL_Build/lib/libsealc*.dylib" />
+    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(Windows))" Include="C:/hu/decision-tree-he/SEAL_Build/bin/Release\sealc.dll" />
+    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(Linux))" Include="C:/hu/decision-tree-he/SEAL_Build/lib/libsealc.so*" />
+    <SEALCBinaryFiles Condition="$([MSBuild]::IsOsPlatform(OSX))" Include="C:/hu/decision-tree-he/SEAL_Build/lib/libsealc*.dylib" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -29,6 +29,6 @@
   </Target>
 
   <ItemGroup>
-    <Compile Include="C:/decision-tree-SEAL/SEAL\dotnet\examples\**\*.cs" />
+    <Compile Include="C:/hu/decision-tree-he/SEAL\dotnet\examples\**\*.cs" />
   </ItemGroup>
 </Project>

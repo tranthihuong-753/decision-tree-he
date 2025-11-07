@@ -1,6 +1,6 @@
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\CMAKEFILES\5083B4C35BD0A3135221B2FAFE429203\GENERATE.STAMP.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\CMAKEFILES\4EF132B6879371FD38B901F2B90CC858\GENERATE.STAMP.RULE
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/decision-tree-SEAL/SEAL_Build/SEAL.sln
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/hu/decision-tree-he/SEAL_Build/SEAL.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

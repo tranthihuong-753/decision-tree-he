@@ -25,7 +25,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{16E1D935-306C-3E36-86CE-14EDAE8010EA}</ProjectGuid>
+    <ProjectGuid>{B3656B4D-924A-3376-9933-18F6A33FDC7B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -69,7 +69,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -89,7 +89,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -99,7 +99,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -108,11 +108,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\CMakeLists.txt">
+    <CustomBuild Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -120,12 +120,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -133,12 +133,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -146,12 +146,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src/build/cmake/lib/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL -BC:/decision-tree-SEAL/SEAL_Build --check-stamp-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL -BC:/hu/decision-tree-he/SEAL_Build --check-stamp-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/lib/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -159,8 +159,8 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\CMakeModules\JoinPaths.cmake;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\build\cmake\lib\cmake_uninstall.cmake.in;C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-src\lib\libzstd.pc.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -168,14 +168,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\decision-tree-SEAL\SEAL_Build\ZERO_CHECK.vcxproj">
-      <Project>{8E50AD39-A0E2-3A49-AA55-E97F11A5077D}</Project>
+    <ProjectReference Include="C:\hu\decision-tree-he\SEAL_Build\ZERO_CHECK.vcxproj">
+      <Project>{46985627-969C-3A21-9218-1BA9D88C2C31}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-build\lib\libzstd_static.vcxproj">
-      <Project>{0CCEC037-7270-3BF4-ABAD-FD1F9EE28D1A}</Project>
+    <ProjectReference Include="C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-build\lib\libzstd_static.vcxproj">
+      <Project>{ACD0D9BB-BEDE-3A80-A33E-CA1707853788}</Project>
       <Name>libzstd_static</Name>
     </ProjectReference>
   </ItemGroup>

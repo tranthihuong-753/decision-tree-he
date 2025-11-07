@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(zstd-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/facebook/zstd.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "f8745da6ff1ad1e7bab384bd1f9d742439278e99"
-                    SOURCE_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src"
-                    BINARY_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build"
+                    SOURCE_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src"
+                    BINARY_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

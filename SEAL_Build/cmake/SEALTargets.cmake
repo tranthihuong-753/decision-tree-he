@@ -51,7 +51,7 @@ add_library(SEAL::seal STATIC IMPORTED)
 
 set_target_properties(SEAL::seal PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_17"
-  INTERFACE_INCLUDE_DIRECTORIES "C:/decision-tree-SEAL/SEAL/native/src;C:/decision-tree-SEAL/SEAL_Build/native/src/;C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-src/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/hu/decision-tree-he/SEAL/native/src;C:/hu/decision-tree-he/SEAL_Build/native/src/;C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-src/include"
   INTERFACE_LINK_LIBRARIES "Threads::Threads"
 )
 
@@ -59,28 +59,28 @@ set_target_properties(SEAL::seal PROPERTIES
 set_property(TARGET SEAL::seal APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(SEAL::seal PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C;CXX"
-  IMPORTED_LOCATION_DEBUG "C:/decision-tree-SEAL/SEAL_Build/lib/Debug/seal-4.1.lib"
+  IMPORTED_LOCATION_DEBUG "C:/hu/decision-tree-he/SEAL_Build/lib/Debug/seal-4.1.lib"
   )
 
 # Import target "SEAL::seal" for configuration "Release"
 set_property(TARGET SEAL::seal APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(SEAL::seal PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C;CXX"
-  IMPORTED_LOCATION_RELEASE "C:/decision-tree-SEAL/SEAL_Build/lib/Release/seal-4.1.lib"
+  IMPORTED_LOCATION_RELEASE "C:/hu/decision-tree-he/SEAL_Build/lib/Release/seal-4.1.lib"
   )
 
 # Import target "SEAL::seal" for configuration "MinSizeRel"
 set_property(TARGET SEAL::seal APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(SEAL::seal PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_MINSIZEREL "C;CXX"
-  IMPORTED_LOCATION_MINSIZEREL "C:/decision-tree-SEAL/SEAL_Build/lib/MinSizeRel/seal-4.1.lib"
+  IMPORTED_LOCATION_MINSIZEREL "C:/hu/decision-tree-he/SEAL_Build/lib/MinSizeRel/seal-4.1.lib"
   )
 
 # Import target "SEAL::seal" for configuration "RelWithDebInfo"
 set_property(TARGET SEAL::seal APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(SEAL::seal PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELWITHDEBINFO "C;CXX"
-  IMPORTED_LOCATION_RELWITHDEBINFO "C:/decision-tree-SEAL/SEAL_Build/lib/RelWithDebInfo/seal-4.1.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "C:/hu/decision-tree-he/SEAL_Build/lib/RelWithDebInfo/seal-4.1.lib"
   )
 
 # This file does not depend on other imported targets which have

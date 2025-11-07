@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\decision-tree-SEAL\SEAL_Build\thirdparty\zstd-subbuild\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\hu\decision-tree-he\SEAL_Build\thirdparty\zstd-subbuild\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

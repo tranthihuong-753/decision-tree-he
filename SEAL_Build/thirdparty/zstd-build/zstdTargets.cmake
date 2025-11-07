@@ -50,7 +50,7 @@ unset(_cmake_expected_targets)
 add_library(zstd::libzstd_static STATIC IMPORTED)
 
 set_target_properties(zstd::libzstd_static PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-src/build/cmake/../../lib"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-src/build/cmake/../../lib"
 )
 
 # Create imported target zstd::libzstd
@@ -64,28 +64,28 @@ set_target_properties(zstd::libzstd PROPERTIES
 set_property(TARGET zstd::libzstd_static APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(zstd::libzstd_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
-  IMPORTED_LOCATION_DEBUG "C:/decision-tree-SEAL/SEAL_Build/lib/Debug/zstd_static.lib"
+  IMPORTED_LOCATION_DEBUG "C:/hu/decision-tree-he/SEAL_Build/lib/Debug/zstd_static.lib"
   )
 
 # Import target "zstd::libzstd_static" for configuration "Release"
 set_property(TARGET zstd::libzstd_static APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(zstd::libzstd_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "C"
-  IMPORTED_LOCATION_RELEASE "C:/decision-tree-SEAL/SEAL_Build/lib/Release/zstd_static.lib"
+  IMPORTED_LOCATION_RELEASE "C:/hu/decision-tree-he/SEAL_Build/lib/Release/zstd_static.lib"
   )
 
 # Import target "zstd::libzstd_static" for configuration "MinSizeRel"
 set_property(TARGET zstd::libzstd_static APPEND PROPERTY IMPORTED_CONFIGURATIONS MINSIZEREL)
 set_target_properties(zstd::libzstd_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_MINSIZEREL "C"
-  IMPORTED_LOCATION_MINSIZEREL "C:/decision-tree-SEAL/SEAL_Build/lib/MinSizeRel/zstd_static.lib"
+  IMPORTED_LOCATION_MINSIZEREL "C:/hu/decision-tree-he/SEAL_Build/lib/MinSizeRel/zstd_static.lib"
   )
 
 # Import target "zstd::libzstd_static" for configuration "RelWithDebInfo"
 set_property(TARGET zstd::libzstd_static APPEND PROPERTY IMPORTED_CONFIGURATIONS RELWITHDEBINFO)
 set_target_properties(zstd::libzstd_static PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELWITHDEBINFO "C"
-  IMPORTED_LOCATION_RELWITHDEBINFO "C:/decision-tree-SEAL/SEAL_Build/lib/RelWithDebInfo/zstd_static.lib"
+  IMPORTED_LOCATION_RELWITHDEBINFO "C:/hu/decision-tree-he/SEAL_Build/lib/RelWithDebInfo/zstd_static.lib"
   )
 
 # This file does not depend on other imported targets which have

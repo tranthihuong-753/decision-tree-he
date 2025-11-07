@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/cmake_install.cmake"
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-subbuild/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

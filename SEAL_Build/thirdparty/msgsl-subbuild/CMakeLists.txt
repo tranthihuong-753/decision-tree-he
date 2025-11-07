@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(msgsl-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/microsoft/GSL.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "a3534567187d2edc428efd3f13466ff75fe5805c"
-                    SOURCE_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-src"
-                    BINARY_DIR          "C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-build"
+                    SOURCE_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-src"
+                    BINARY_DIR          "C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

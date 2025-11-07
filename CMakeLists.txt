@@ -14,4 +14,4 @@ target_link_libraries(seal_ckks_example SEAL::seal)
 # target_link_libraries(testt SEAL::seal)
 
 # Thêm đường dẫn đến thư mục chứa file examples.h
-include_directories("C:/decision-tree-SEAL/SEAL/native/examples") 
+include_directories("C:/hu/decision-tree-he/SEAL/native/examples") 

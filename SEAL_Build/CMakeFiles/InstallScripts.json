@@ -1,14 +1,14 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/decision-tree-SEAL/SEAL_Build/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-build/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-build/include/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-build/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/thirdparty/zstd-build/lib/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/native/src/seal/cmake_install.cmake",
-		"C:/decision-tree-SEAL/SEAL_Build/native/src/seal/util/cmake_install.cmake"
+		"C:/hu/decision-tree-he/SEAL_Build/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-build/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-build/include/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-build/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/thirdparty/zstd-build/lib/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/native/src/seal/cmake_install.cmake",
+		"C:/hu/decision-tree-he/SEAL_Build/native/src/seal/util/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

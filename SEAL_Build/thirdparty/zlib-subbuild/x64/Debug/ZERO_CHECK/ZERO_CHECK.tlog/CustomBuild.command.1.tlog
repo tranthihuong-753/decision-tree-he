@@ -1,6 +1,6 @@
-^C:\DECISION-TREE-SEAL\SEAL_BUILD\THIRDPARTY\ZLIB-SUBBUILD\CMAKEFILES\6BF4A55DFE326587DACC8C4677F98497\GENERATE.STAMP.RULE
+^C:\HU\DECISION-TREE-HE\SEAL_BUILD\THIRDPARTY\ZLIB-SUBBUILD\CMAKEFILES\527BDCE54FFEF5E15ADA00611BF236F4\GENERATE.STAMP.RULE
 setlocal
-C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-subbuild -BC:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/decision-tree-SEAL/SEAL_Build/thirdparty/zlib-subbuild/zlib-populate.sln
+C:\Users\mo\Downloads\winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2\mingw64\bin\cmake.exe -SC:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-subbuild -BC:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/hu/decision-tree-he/SEAL_Build/thirdparty/zlib-subbuild/zlib-populate.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

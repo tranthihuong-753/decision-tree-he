@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitclone.cmake
-source_dir=C:/decision-tree-SEAL/SEAL_Build/thirdparty/msgsl-src
-work_dir=C:/decision-tree-SEAL/SEAL_Build/thirdparty
+command=C:/Users/mo/Downloads/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2/mingw64/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-subbuild/msgsl-populate-prefix/tmp/msgsl-populate-gitclone.cmake
+source_dir=C:/hu/decision-tree-he/SEAL_Build/thirdparty/msgsl-src
+work_dir=C:/hu/decision-tree-he/SEAL_Build/thirdparty
 repository=https://github.com/microsoft/GSL.git
 remote=origin
 init_submodules=TRUE
