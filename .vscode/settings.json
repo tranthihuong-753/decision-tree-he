@@ -80,6 +80,7 @@
         "xloctime": "cpp",
         "xmemory": "cpp",
         "xtr1common": "cpp",
-        "pointers": "cpp"
+        "pointers": "cpp",
+        "set": "cpp"
     }
 }

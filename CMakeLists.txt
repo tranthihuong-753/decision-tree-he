@@ -7,11 +7,13 @@ find_package(SEAL REQUIRED)
 
 # Thêm file thực thi
 add_executable(seal_ckks_example seal_ckks_example.cpp)
-# add_executable(testt testt.cpp)
+add_executable(testt testt.cpp)
+add_executable(tett tett.cpp)
 
 # Liên kết file thực thi với thư viện SEAL
 target_link_libraries(seal_ckks_example SEAL::seal)
-# target_link_libraries(testt SEAL::seal)
+target_link_libraries(testt SEAL::seal)
+target_link_libraries(tett SEAL::seal)
 
 # Thêm đường dẫn đến thư mục chứa file examples.h
 include_directories("C:/hu/decision-tree-he/SEAL/native/examples") 
