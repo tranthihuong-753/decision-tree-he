@@ -1,5 +1,4 @@
 C:/hu/decision-tree-he/Project_Build/CMakeFiles/seal_ckks_example.dir
-C:/hu/decision-tree-he/Project_Build/CMakeFiles/testt.dir
-C:/hu/decision-tree-he/Project_Build/CMakeFiles/tett.dir
+C:/hu/decision-tree-he/Project_Build/CMakeFiles/seal_ckks_example_1.dir
 C:/hu/decision-tree-he/Project_Build/CMakeFiles/ALL_BUILD.dir
 C:/hu/decision-tree-he/Project_Build/CMakeFiles/ZERO_CHECK.dir

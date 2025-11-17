@@ -11,47 +11,42 @@
 using namespace std;
 using namespace seal;
 
-int max_example = 150; // Số lượng mẫu Iris để đọc từ file CSV
-int max_offset = 64; // leaf_value() nếu kích thước của tập X là N, bạn cần xoay đến N/2 lần, N=70 thì max_offset=64 (2^5<35<2^6 hay 32<35<64)
-size_t MAX_DEGREE = 5; // soft_step_evaluation() Giới hạn bậc đa thức xấp xỉ đến z^4 vì độ phức tạp tính toán
-int NUM_LABELS = 3; // train_decision_tree() Iris-setosa, Iris-versicolor, Iris-virginica
-
-struct Iris {
-    vector<double> features; // [sepal_length, sepal_width, petal_length, petal_width]
-    string label;            // "Iris-setosa", "Iris-versicolor", "Iris-virginica"
+int number_threshold = 2; // Số ngưỡng để thử nghiệm trong train_decision_tree() thực tế số ngưỡng N x k = 70 x 8 = 560 
+const vector<double> SOFT_STEP_COEFFICIENTS_16 = {
+    5.00000000e-01,
+    2.11445799e+00,
+    1.15591931e-10,
+    -6.38009501e+00,
+    -4.91650318e-10,
+    1.09534390e+01,
+    8.95471329e-10,
+    -1.01295272e+01,
+    -8.38669100e-10,
+    5.27558906e+00,
+    4.36355800e-10,
+    -1.54908047e+00,
+    -1.27390646e-10,
+    2.39094701e-01,
+    1.95169389e-11,
+    -1.50730122e-02,
+    -1.22081599e-12
+};
+const vector<double> SOFT_STEP_COEFFICIENTS_8 = {
+    0.5, 
+    1.23986659, 
+    -0.0, 
+    -1.05984904, 
+    -0.0, 
+    0.40068769, 
+    0.0, 
+    -0.05021892, 
+    0.0
 };
 
-vector<Iris> read_iris_csv(const string &filename) {
-    cout << "read_iris_csv() Doc du lieu tu file: " << filename << endl;
-    vector<Iris> data;
-    ifstream file(filename);
-    if (!file.is_open()) {
-        throw runtime_error("Khong the mo file: " + filename);
-    }
-    int m = 0;
-    string line;
-    while (getline(file, line)) {
-        stringstream ss(line);
-        string item;
-        Iris iris;
-        for (int i = 0; i < 8; ++i) {
-            if (!getline(ss, item, ',')) {
-                throw runtime_error("Dinh dang du lieu khong hop le trong file.");
-            }
-            iris.features.push_back(stod(item));
-        }
-        if (!getline(ss, item, ',')) {
-            throw runtime_error("Dinh dang du lieu khong hop le trong file.");
-        }
-        iris.label = item;
-        data.push_back(iris);
-        // cout << "Read iris: " << iris.label << endl;
-        m++;
-        if (m == max_example) break; // Chỉ đọc 5 dòng đầu tiên để kiểm tra
-    }
-    file.close();
-    return data;
-}
+struct Sample {
+    vector<double> features; 
+    string label;           
+};
 
 vector<Sample> read_csv_dynamic(const std::string &filename) {
     std::cout << "read_csv_dynamic() " << filename << std::endl;
@@ -91,24 +86,18 @@ vector<Sample> read_csv_dynamic(const std::string &filename) {
     return data;
 }
 
-void normalize(vector<Iris> &data)
+void normalize(vector<Sample> &data)
 {
     if (data.empty() || data[0].features.empty()) return;
-
-    size_t num_features = data[0].features.size();
-
-    for (int j = 0; j < num_features; j++) {
+    size_t NUM_SAMPLES = data[0].features.size();
+    for (int j = 0; j < NUM_SAMPLES; j++) {
         double min_val = 1e9, max_val = -1e9;
-
-        // Tìm giá trị min/max cho mỗi cột
         for (auto &row : data) {
             min_val = min(min_val, row.features[j]);
             max_val = max(max_val, row.features[j]);
         }
-
         // Tránh chia cho 0
         if (abs(max_val - min_val) < 1e-12) continue;
-
         // Chuẩn hóa về khoảng [-1, 1]
         for (auto &row : data) {
             row.features[j] = 2 * (row.features[j] - min_val) / (max_val - min_val) - 1;
@@ -117,22 +106,20 @@ void normalize(vector<Iris> &data)
 }
 
 struct SplitData {
-    vector<Iris> train, val, test;
+    vector<Sample> train, test;
 };
 
-SplitData split_data(vector<Iris> data, double train_ratio=0.7, double val_ratio=0.15) {
+SplitData split_data(vector<Sample> data, double train_ratio=0.8) {
     random_device rd;
     mt19937 g(rd());
     shuffle(data.begin(), data.end(), g);
 
     size_t n = data.size();
     int n_train = static_cast<int>(train_ratio * n);
-    int n_val = static_cast<int>(val_ratio * n);
 
     SplitData split;
-    split.train = vector<Iris>(data.begin(), data.begin() + n_train);
-    split.val   = vector<Iris>(data.begin() + n_train, data.begin() + n_train + n_val);
-    split.test  = vector<Iris>(data.begin() + n_train + n_val, data.end());
+    split.train = vector<Sample>(data.begin(), data.begin() + n_train);
+    split.test  = vector<Sample>(data.begin() + n_train, data.end());
     return split;
 }
 
@@ -145,14 +132,35 @@ void print_ct_info(const SEALContext &context, const Ciphertext &ct, const std::
          << endl;
 }
 
+// Giải mã Ciphertext CKKS sang vector<double>
+vector<double> decrypt_to_vector(
+    const Ciphertext &ct,
+    Decryptor &decryptor,
+    const CKKSEncoder &encoder
+) {
+    Plaintext pt;
+    decryptor.decrypt(ct, pt);  // Giải mã sang plaintext
+    vector<double> result;
+    encoder.decode(pt, result); // Giải mã CKKS sang vector<double>
+    return result;
+}
+// vector<double> values = decrypt_to_vector(C_Phi_Left, decryptor, encoder);
+// cout << "Values: ";
+// for (double v : values) {
+//     cout << v << " ";
+// }
+// cout << endl;
+
 // leaf_value(W, Y) = sum(W * Y)
 Ciphertext leaf_value(
-    const Ciphertext &C_W_col,         // ciphertext chứa W per slot
-    const Ciphertext &C_Y_col,         // ciphertext chứa Y per slot
+    const Ciphertext &C_W_col,         
+    const Ciphertext &C_Y_col,        
     Evaluator &evaluator,
     const RelinKeys &relin_keys,
     const GaloisKeys &galois_keys,
-    const SEALContext &context)
+    const SEALContext &context,
+    int NUM_SAMPLES
+)
 {
     cout << "leaf_value()" << endl;
 
@@ -172,14 +180,14 @@ Ciphertext leaf_value(
         cout << "mod-switched Y down to W's level" << endl;
     }
 
-    print_ct_info(context, W, "\tafter align C_W_col");
-    print_ct_info(context, Y, "\tafter align C_Y_col");
+    // print_ct_info(context, W, "\tafter align C_W_col");
+    // print_ct_info(context, Y, "\tafter align C_Y_col");
 
-    size_t common_ci = context.get_context_data(W.parms_id())->chain_index();
-    if (common_ci < 1) {
-        cerr << "leaf_value ERROR: insufficient levels (common chain_index < 1). Cannot multiply+rescale safely." << endl;
-        throw runtime_error("leaf_value: insufficient levels for multiply");
-    }
+    // size_t common_ci = context.get_context_data(W.parms_id())->chain_index();
+    // if (common_ci < 1) {
+    //     cerr << "leaf_value ERROR: insufficient levels (common chain_index < 1). Cannot multiply+rescale safely." << endl;
+    //     throw runtime_error("leaf_value: insufficient levels for multiply");
+    // }
 
     Ciphertext P;
     try {
@@ -194,7 +202,7 @@ Ciphertext leaf_value(
     }
 
     Ciphertext res = P;
-    for (int step = 1; step <= max_offset; step *= 2) {
+    for (int step = 1; step < NUM_SAMPLES; step+= 1) {
         Ciphertext tmp;
         evaluator.rotate_vector(res, step, galois_keys, tmp);
         evaluator.add_inplace(res, tmp);
@@ -203,17 +211,6 @@ Ciphertext leaf_value(
     cout << "Completed leaf_value() = " << endl;
     return res;
 }
-
-// soft_step_evaluation(hệ số bậc 16 đã dùng code python tính toán)
-const vector<double> SOFT_STEP_COEFFICIENTS_16 = {
-    // c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16
-     5.00000000e-01,  2.11445799e+00,  1.15591931e-10, -6.38009501e+00,
-    5.00000000e-01,  2.11445799e+00,  1.15591931e-10, -6.38009501e+00,
-   -4.91650318e-10,  1.09534390e+01,  8.95471329e-10, -1.01295272e+01,
-   -8.38669100e-10,  5.27558906e+00,  4.36355800e-10, -1.54908047e-01, // Sửa: Giảm 1 bậc mũ của 1.54908047e+00 để phù hợp với kết quả
-   -1.27390646e-10,  2.39094701e-01,  1.95169389e-11, -1.50730122e-02,
-   -1.22081599e-12
-};
 
 // 1. Tạo vector lưu các lũy thừa của z: z^1, z^2, z^3, ...
 // 2. Tính tổng đa thức: c0 + c1*[[z^1]] + c2*[[z^2]] + ... + c16*[[z^16]]
@@ -224,34 +221,55 @@ Ciphertext soft_step_evaluation(
     const CKKSEncoder &encoder,
     const RelinKeys &relin_keys,
     double scale,
-    const SEALContext &context)
+    const SEALContext &context,
+    vector<double> SOFT_STEP_COEFFICIENTS
+) ///?
 {
     cout << "soft_step_evaluation()" << endl;
     // 1. Tạo vector lưu các lũy thừa của z: z^1, z^2, z^3, ...
     vector<Ciphertext> powers;
-    powers.reserve(MAX_DEGREE + 1); // powers.reserve(SOFT_STEP_COEFFICIENTS_16.size());
+    powers.reserve(SOFT_STEP_COEFFICIENTS.size()); // powers.reserve(SOFT_STEP_COEFFICIENTS_16.size());
     powers.push_back(encrypted_z); // z^1
 
     // Tính toán các Lũy thừa của z 
     // đảm bảo encrypted_z=cx - theta đã ở đúng level và scale ban đầu mong muốn, i < SOFT_STEP_COEFFICIENTS_16.size() là bão hòa nhưng máy cấu hình kém 
-    for (size_t i = 1; i < MAX_DEGREE; ++i) {
+    for (size_t i = 1; i < SOFT_STEP_COEFFICIENTS.size(); ++i) {
         // cout << " Computing power z^" << (i+1) << endl;
+        Ciphertext tmp;
         Ciphertext z_for_mul = encrypted_z;
-        if (z_for_mul.parms_id() != powers.back().parms_id()) {
-            evaluator.mod_switch_to_inplace(z_for_mul, powers.back().parms_id());
+
+        if(i == 1 || i%2 == 0){ // i + 1 == 2 || (i+1)%2 != 0
+            if (z_for_mul.parms_id() != powers.back().parms_id()) {
+                evaluator.mod_switch_to_inplace(z_for_mul, powers.back().parms_id());
+            }
+            try {
+                evaluator.multiply(powers.back(), z_for_mul, tmp); // tmp scale ≈ s1 * s2
+            } catch (const exception &e) {
+                cerr << "MULTIPLY EXCEPTION at i=" << i << ": " << e.what() << endl;
+                throw;
+            }
+        }else{
+            try {
+                int z = (i+1)/2 - 1;
+                Ciphertext& ciphertext_i = powers[(z)]; 
+                evaluator.multiply(ciphertext_i, ciphertext_i, tmp); // tmp scale ≈ s1 * s2
+            } catch (const exception &e) {
+                cerr << "MULTIPLY EXCEPTION at i=" << i << ": " << e.what() << endl;
+                throw;
+            }
         }
 
-        double s1 = powers.back().scale();
-        double s2 = z_for_mul.scale();
+        // double s1 = powers.back().scale();
+        // double s2 = z_for_mul.scale();
         // cout << "  scales before mul: power=" << s1 << ", z_copy=" << s2 << endl;
 
-        Ciphertext tmp;
-        try {
-            evaluator.multiply(powers.back(), z_for_mul, tmp); // tmp scale ≈ s1 * s2
-        } catch (const exception &e) {
-            cerr << "MULTIPLY EXCEPTION at i=" << i << ": " << e.what() << endl;
-            throw;
-        }
+        // Ciphertext tmp;
+        // try {
+        //     evaluator.multiply(powers.back(), z_for_mul, tmp); // tmp scale ≈ s1 * s2
+        // } catch (const exception &e) {
+        //     cerr << "MULTIPLY EXCEPTION at i=" << i << ": " << e.what() << endl;
+        //     throw;
+        // }
 
         // Relinearize và rescale như trước
         evaluator.relinearize_inplace(tmp, relin_keys);
@@ -263,7 +281,7 @@ Ciphertext soft_step_evaluation(
     }
 
     Plaintext c0_plain;
-    encoder.encode(SOFT_STEP_COEFFICIENTS_16[0], scale, c0_plain);
+    encoder.encode(SOFT_STEP_COEFFICIENTS[0], scale, c0_plain);
 
     Ciphertext result;
     encryptor.encrypt(c0_plain, result); // dùng Encryptor, không phải Evaluator
@@ -271,13 +289,15 @@ Ciphertext soft_step_evaluation(
     evaluator.mod_switch_to_inplace(result, powers.back().parms_id());
 
     // 2. Tính tổng đa thức: c0 + c1*[[z^1]] + c2*[[z^2]] + ... + c16*[[z^16]]
-    for (size_t i = 1; i < MAX_DEGREE; ++i) { // i < SOFT_STEP_COEFFICIENTS_16.size()
+    for (size_t i = 1; i < SOFT_STEP_COEFFICIENTS.size(); ++i) { // i < SOFT_STEP_COEFFICIENTS_16.size()
         // cout << " Adding term for z^" << i << endl;
 
         // Đảm bảo i không vượt quá số lượng hệ số thực tế (nếu SOFT_STEP_COEFFICIENTS_16 nhỏ hơn 5)
-        if (i >= SOFT_STEP_COEFFICIENTS_16.size()) break;
-        double coeff = SOFT_STEP_COEFFICIENTS_16[i];
+        if (i >= SOFT_STEP_COEFFICIENTS.size()) break;
+        
+        double coeff = SOFT_STEP_COEFFICIENTS[i];
         if (std::abs(coeff) < 1e-12) continue;
+
         // powers[i-1] là z^i
         Ciphertext &power = powers[i-1];
 
@@ -298,17 +318,18 @@ Ciphertext soft_step_evaluation(
         if (term.parms_id() != target_parms_id) {
             evaluator.mod_switch_to_inplace(term, target_parms_id);
         }
-        term.scale() = result.scale();
+        term.scale() = result.scale(); // Đảm bảo scale giống nhau trước khi cộng
         evaluator.add_inplace(result, term);
     }
+
     cout << "Completed soft_step_evaluation()" << endl;
     return result;
 }
 
 // compute_weighted_counts_homo(W, Y, X) = sum(W, soft_step_evaluation(cx[i]-theta), cyx)
 pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
-    int feature_idx,
-    double threshold,
+    int feature_idx, // 1 số plaintext 
+    double threshold, // 1 số plaintext 
     const vector<Ciphertext>& C_X_cols, // K ciphertext
     const Ciphertext& C_W_col,          // 1 ciphertextMULTIPLY EXCEPTION
     const vector<Ciphertext>& C_Y_cols,   // L ciphertext
@@ -318,10 +339,12 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     const RelinKeys& relin_keys,
     const GaloisKeys& galois_keys,
     const SEALContext& context,
-    double scale,
-    size_t num_samples)
+    double scale, // tính soft_step_evaluation()
+    int NUM_SAMPLES
+)
 {
     cout << "compute_weighted_counts_homo()" << endl;
+        
     // Helper: align levels then multiply (safe)
     auto align_and_multiply = [&](const Ciphertext &A, const Ciphertext &B, Ciphertext &Out) {
         // Make copies so originals are not mutated
@@ -359,7 +382,6 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
             evaluator.multiply(a, b, Out);
             evaluator.relinearize_inplace(Out, relin_keys);
             evaluator.rescale_to_next_inplace(Out);
-            print_ct_info(context, Out, "   Out AFTER mul+relin+rescale");
         } catch (const exception &e) {
             cerr << "   MULTIPLY EXCEPTION: " << e.what() << endl;
             print_ct_info(context, a, "   a (after align)");
@@ -395,18 +417,9 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     // Tính Soft-Step: Phi(Z_right) và Phi(Z_left)
     // *Lưu ý: Phải đảm bảo soft_step_evaluation đã được cập nhật đúng tham số*
     Ciphertext C_Phi_Right = soft_step_evaluation(
-        C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
+        C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_16); 
     Ciphertext C_Phi_Left = soft_step_evaluation(
-        C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
-
-    // --- DEBUG: skip soft_step_evaluation, use constant Phi ---
-    // Plaintext pt_phi_right, pt_phi_left;
-    // encoder.encode(0.5, scale, pt_phi_right); // or 1.0, tuỳ bạn
-    // encoder.encode(0.5, scale, pt_phi_left);
-
-    // Ciphertext C_Phi_Right, C_Phi_Left;
-    // encryptor.encrypt(pt_phi_right, C_Phi_Right);
-    // encryptor.encrypt(pt_phi_left, C_Phi_Left);
+        C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_16); 
 
     // Tính W_phi = W * Phi
     // cout << "Tinh W_Phi" << endl;
@@ -415,137 +428,103 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
     // Right: C_W_col * C_Phi_Right
     // cout << " Right: C_W_col * C_Phi_Right" << endl;
     align_and_multiply(C_W_col, C_Phi_Right, C_W_Phi_Right);
+    // cout << "Right: C_W_col * C_Phi_Right: ";
+    // int i;
+    // for (i = 0; i < 8; i++) {
+    //     cout << values_1[i] << "    ";
+    // }
+    // cout << endl;
 
     // Left: C_W_col * C_Phi_Left
     // cout << " Left: C_W_col * C_Phi_Left" << endl;
     align_and_multiply(C_W_col, C_Phi_Left, C_W_Phi_Left);
-    
-    // --- BƯỚC 2: TÍNH TỔNG THEO TỪNG NHÃN L (Summation) ---
-    // cout << "Tinh Tong theo tung nhan L" << endl;
+    // vector<double> values_1 = decrypt_to_vector(C_W_Phi_Left, decryptor, encoder);
+    // cout << "C_W_Phi_Left: ";
+    // int i;
+    // for (i = 0; i < 8; i++) {
+    //     cout << values_1[i] << " ";
+    // }
+    // cout << endl;
+
+
+    // Tính W.Phi.Y và tổng trọng số cho 1 nhãn bị chia bởi i, theta 
     for (size_t l = 0; l < NUM_LABELS; ++l) {
-        auto print_ct_debug = [&](const string &name, const Ciphertext &ct) {
-            auto ctx_data = context.get_context_data(ct.parms_id());
-            size_t ci = ctx_data ? ctx_data->chain_index() : -1;
-            // cout << name << ": chain_index=" << ci 
-            //     << ", scale=" << setprecision(12) << ct.scale()
-            //     << ", parms_id? " << (ct.parms_id().data() ? "yes":"no") << endl;
-        };
-
-        // Safe multiply helper (align levels, multiply, relin, rescale)
-        auto safe_mul = [&](Ciphertext a, Ciphertext b, Ciphertext &out) {
-            // align levels by mod-switching the higher down to lower
-            auto a_ci = context.get_context_data(a.parms_id())->chain_index();
-            auto b_ci = context.get_context_data(b.parms_id())->chain_index();
-            if (a.parms_id() != b.parms_id()) {
-                if (a_ci > b_ci) evaluator.mod_switch_to_inplace(a, b.parms_id());
-                else evaluator.mod_switch_to_inplace(b, a.parms_id());
-            }
-            auto common_ci = context.get_context_data(a.parms_id())->chain_index();
-            if (common_ci < 1) {
-                // cannot multiply+rescale safely
-                throw runtime_error("safe_mul: insufficient levels (chain_index < 1)");
-            }
-            // print_ct_debug("safe_mul - aligned a", a);
-            // print_ct_debug("safe_mul - aligned b", b);
-
-            evaluator.multiply(a, b, out);
-            evaluator.relinearize_inplace(out, relin_keys);
-            evaluator.rescale_to_next_inplace(out);
-            // print_ct_debug("safe_mul - out(after mul+rescale)", out);
-        };
-
-        // ======================= Diagnostic prints BEFORE the failing multiply =======================
-        // Right after you computed C_W_Phi_Right and C_W_Phi_Left (they exist here)
-        // print_ct_debug("DBG C_W_Phi_Right", C_W_Phi_Right);
-        // print_ct_debug("DBG C_W_Phi_Left", C_W_Phi_Left);
-
-        // Print one Y column (we will iterate, but start with l=0)
-        for (size_t l = 0; l < NUM_LABELS; ++l) {
-            print_ct_debug("DBG C_Y_cols[" + to_string(l) + "]", C_Y_cols[l]);
-        }
-
-        // ======================= Try multiple multiply orders for each label =======================
-        for (size_t l = 0; l < NUM_LABELS; ++l) {
-            // cout << "Processing label " << l << " (TRY best multiply order)" << endl;
-
-            // Print current state
-            // print_ct_debug("  C_W_Phi_Right", C_W_Phi_Right);
-            // print_ct_debug("  C_Y_cols[l]", C_Y_cols[l]);
-
-            Ciphertext C_Term_Right_tmp;
-
-            // Strategy: try (W*Y) then *Phi  OR (W*Phi) then *Y  OR (Phi*Y) then *W
-            // We attempt an order that leaves at least one level for subsequent multiply.
-            bool done = false;
-            vector<string> attempts = {"(W*Y)*Phi", "(W*Phi)*Y", "(Phi*Y)*W"};
-            for (auto &attempt : attempts) {
-                try {
-                    // cout << " Attempting order: " << attempt << endl;
-                    if (attempt == "(W*Y)*Phi") {
-                        // compute t1 = W * Y
-                        Ciphertext t1;
-                        safe_mul(C_W_col, C_Y_cols[l], t1);         // consumes one level -> chain_index--
-                        // then align t1 with Phi and multiply
-                        safe_mul(t1, C_Phi_Right, C_Term_Right_tmp); 
-                    } else if (attempt == "(W*Phi)*Y") {
-                        // this is your current approach: we already have C_W_Phi_Right as W*Phi
-                        // but check chain_index of C_W_Phi_Right
-                        // print_ct_debug("   pre-check C_W_Phi_Right", C_W_Phi_Right);
-                        safe_mul(C_W_Phi_Right, C_Y_cols[l], C_Term_Right_tmp);
-                    } else { // (Phi*Y)*W
-                        Ciphertext t1;
-                        safe_mul(C_Phi_Right, C_Y_cols[l], t1);
-                        safe_mul(t1, C_W_col, C_Term_Right_tmp);
-                    }
-                    // if reached here no exception => success
-                    // cout << "  Success with order: " << attempt << endl;
-                    // store and mark done
-                    C_right_counts[l] = C_Term_Right_tmp;
-                    done = true;
-                    break;
-                } catch (const exception &e) {
-                    cout << "  Attempt " << attempt << " failed: " << e.what() << endl;
-                    // continue to next attempt
+        // cout << "Processing label " << l << " (TRY best multiply order)" << endl;
+        Ciphertext C_Term_Right_tmp;
+        // Strategy: try (W*Y) then *Phi  OR (W*Phi) then *Y  OR (Phi*Y) then *W
+        bool done = false;
+        vector<string> attempts = {"(W*Y)*Phi", "(W*Phi)*Y", "(Phi*Y)*W"};
+        for (auto &attempt : attempts) {
+            try {
+                // cout << " Attempting order: " << attempt << endl;
+                if (attempt == "(W*Y)*Phi") {
+                    Ciphertext t1;
+                    align_and_multiply(C_W_col, C_Y_cols[l], t1);      
+                    align_and_multiply(t1, C_Phi_Right, C_Term_Right_tmp); 
+                } else if (attempt == "(W*Phi)*Y") {
+                    align_and_multiply(C_W_Phi_Right, C_Y_cols[l], C_Term_Right_tmp);
+                } else { // (Phi*Y)*W
+                    Ciphertext t1;
+                    align_and_multiply(C_Phi_Right, C_Y_cols[l], t1);
+                    align_and_multiply(t1, C_W_col, C_Term_Right_tmp);
                 }
-            } // end attempts
-
-            if (!done) {
-                // None of the orders worked: we are out of levels.
-                cerr << "ERROR: cannot compute W*Phi*Y for label " << l 
-                    << " with current levels. Consider increasing coeff_modulus or reducing operations." << endl;
-                // throw or handle gracefully; here we throw to stop and show debug
-                throw runtime_error("compute_weighted_counts_homo: insufficient levels for W*Phi*Y");
+                C_right_counts[l] = C_Term_Right_tmp;
+                done = true;
+                // vector<double> values_1 = decrypt_to_vector(C_right_counts[l], decryptor, encoder);
+                // cout << "(Phi*Y)*W right: " << l ;
+                // int i;
+                // for (i = 0; i < NUM_SAMPLES + 1; i++) {
+                //     cout << values_1[i] << "    ";
+                // }
+                // cout << endl;
+                break;
+            } catch (const exception &e) {
+                cout << "  Attempt " << attempt << " failed: " << e.what() << endl;
             }
-
-            // Then do rotations/sums on C_right_counts[l] as before (if done)
-            Ciphertext C_Sum_Right_l = C_right_counts[l];
-            for (int step = 1; step <= int(num_samples / 2); step *= 2) {
-                Ciphertext C_Rotated;
-                evaluator.rotate_vector(C_Sum_Right_l, step, galois_keys, C_Rotated);
-                evaluator.add_inplace(C_Sum_Right_l, C_Rotated);
-            }
-            C_right_counts[l] = C_Sum_Right_l;
+        }
+        
+        if (!done) {
+            // None of the orders worked: we are out of levels.
+            cerr << "ERROR: cannot compute W*Phi*Y for label " << l 
+                << " with current levels. Consider increasing coeff_modulus or reducing operations." << endl;
+            // throw or handle gracefully; here we throw to stop and show debug
+            throw runtime_error("compute_weighted_counts_homo: insufficient levels for W*Phi*Y");
         }
 
-        // --- LEFT SIDE (Tương tự) ---
-        // Tương tự cho C_W_Phi_Left
-        // --- LEFT SIDE (Giống RIGHT, có thử nhiều thứ tự multiply) ---
-        bool done_left = false;
+        Ciphertext C_Sum_Right_l = C_right_counts[l];
+        for (int step = 1; step < NUM_SAMPLES ; step += 1) {
+            Ciphertext C_Rotated;
+            evaluator.rotate_vector(C_Sum_Right_l, step, galois_keys, C_Rotated);
+            evaluator.add_inplace(C_Sum_Right_l, C_Rotated);
+        }
+        C_right_counts[l] = C_Sum_Right_l;
+
+        // vector<double> values_1 = decrypt_to_vector(C_right_counts[l], decryptor, encoder);
+        // cout << "nhan " << l ;
+        // int i;
+        // for (i = 0; i < NUM_SAMPLES + 1; i++) {
+        //     cout << values_1[i] << "    ";
+        // }
+        // cout << endl;
+        
+    }
+
+    for (size_t l = 0; l < NUM_LABELS; ++l){
         Ciphertext C_Term_Left_tmp;
         vector<string> left_attempts = {"(W*Y)*Phi", "(W*Phi)*Y", "(Phi*Y)*W"};
-
+        bool done_left = false;
         for (auto &attempt : left_attempts) {
             try {
                 if (attempt == "(W*Y)*Phi") {
                     Ciphertext t1;
-                    safe_mul(C_W_col, C_Y_cols[l], t1);
-                    safe_mul(t1, C_Phi_Left, C_Term_Left_tmp);
+                    align_and_multiply(C_W_col, C_Y_cols[l], t1);
+                    align_and_multiply(t1, C_Phi_Left, C_Term_Left_tmp);
                 } else if (attempt == "(W*Phi)*Y") {
-                    safe_mul(C_W_Phi_Left, C_Y_cols[l], C_Term_Left_tmp);
+                    align_and_multiply(C_W_Phi_Left, C_Y_cols[l], C_Term_Left_tmp);
                 } else { // (Phi*Y)*W
                     Ciphertext t1;
-                    safe_mul(C_Phi_Left, C_Y_cols[l], t1);
-                    safe_mul(t1, C_W_col, C_Term_Left_tmp);
+                    align_and_multiply(C_Phi_Left, C_Y_cols[l], t1);
+                    align_and_multiply(t1, C_W_col, C_Term_Left_tmp);
                 }
 
                 C_left_counts[l] = C_Term_Left_tmp;
@@ -556,24 +535,18 @@ pair<vector<Ciphertext>, vector<Ciphertext>> compute_weighted_counts_homo(
             }
         }
 
-        if (!done_left) {
-            cerr << "ERROR: cannot compute LEFT W*Phi*Y for label " << l
-                << " with current levels. Consider increasing coeff_modulus or reducing operations." << endl;
-            throw runtime_error("compute_weighted_counts_homo: insufficient levels for LEFT W*Phi*Y");
-        }
-
         // --- SUM ROTATIONS for LEFT (giống RIGHT) ---
         Ciphertext C_Sum_Left_l = C_left_counts[l];
-        for (int step = 1; step <= int(num_samples / 2); step *= 2) {
+        for (int step = 1; step < NUM_LABELS ; step += 1) {
             Ciphertext C_Rotated;
             evaluator.rotate_vector(C_Sum_Left_l, step, galois_keys, C_Rotated);
             evaluator.add_inplace(C_Sum_Left_l, C_Rotated);
         }
-        C_left_counts[l] = C_Sum_Left_l;
+        C_left_counts[l] = C_Sum_Left_l; // tong bang so phan tu dau tien
     }
 
     cout << "Completed compute_weighted_counts_homo()" << endl;
-    return {C_right_counts, C_left_counts};
+    return {C_right_counts, C_left_counts}; // vecto<cipher=vecto Nx1>
 }
 
 struct Node {
@@ -593,7 +566,8 @@ struct Node {
 // compute_gini_impurity() Tính độ tạp Gini (Gini Impurity) cho một phân chia cụ thể
 double compute_gini_impurity(
     const vector<double>& right_counts, // Vector Lx1 cleartext (tổng trọng số bên phải)
-    const vector<double>& left_counts)  // Vector Lx1 cleartext (tổng trọng số bên trái)
+    const vector<double>& left_counts
+)  // Vector Lx1 cleartext (tổng trọng số bên trái)
 {
     cout << "compute_gini_impurity()" << endl;
     // Tính tổng trọng số mẫu ở mỗi bên
@@ -613,7 +587,7 @@ double compute_gini_impurity(
             double prob = count / total_right;
             sum_sq += prob * prob;
         }
-        gini_right = (1.0 - sum_sq) * (1 / total_all);
+        gini_right = (1.0 - sum_sq) * (total_right / total_all);
     }
 
     double gini_left = 0.0;
@@ -623,14 +597,13 @@ double compute_gini_impurity(
             double prob = count / total_left;
             sum_sq += prob * prob;
         }
-        gini_left = (1.0 - sum_sq) * (1 / total_all);
+        gini_left = (1.0 - sum_sq) * (total_left / total_all);
     }
 
     cout << "Completed compute_gini_impurity()" << endl;
     return gini_right + gini_left;
 }
 
-// Hàm phụ trợ để tính W_phi cho ngưỡng đã chọn
 pair<Ciphertext, Ciphertext> compute_W_phi_best(
     int best_feature, double best_threshold,
     const vector<Ciphertext>& C_X_cols, const Ciphertext& C_W_col, 
@@ -669,8 +642,8 @@ pair<Ciphertext, Ciphertext> compute_W_phi_best(
     evaluator.sub(C_Theta, C_X_cols[best_feature], C_Z_left); 
 
     // Soft-Step
-    Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context); 
-    Ciphertext C_Phi_Left = soft_step_evaluation(C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context); 
+    Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_16); 
+    Ciphertext C_Phi_Left = soft_step_evaluation(C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_16); 
     
     // --- DEBUG: skip soft_step_evaluation, use constant Phi ---
     // cout << " 2" << endl;
@@ -709,11 +682,12 @@ unique_ptr<Node> train_decision_tree(
     const GaloisKeys& galois_keys,
     const SEALContext& context,
     double scale,
-    size_t num_samples
+    size_t NUM_SAMPLES
 ){
     cout << "train_decision_tree() depth=" << depth << endl;
     auto node = make_unique<Node>();
     const size_t NUM_FEATURES = C_X_cols.size();
+    size_t NUM_LABELS = C_Y_cols.size();
 
     // 1. ĐIỀU KIỆN DỪNG
     if (depth >= max_depth) {
@@ -726,7 +700,7 @@ unique_ptr<Node> train_decision_tree(
             // cout << "  Computing leaf value for label " << l << endl;
             // 1.1. TÍNH TỔNG TRỌNG SỐ ĐỒNG HÌNH (C_W * C_Y[l])
             Ciphertext C_weighted_sum = leaf_value(
-                C_W_col, C_Y_cols[l], evaluator, relin_keys, galois_keys, context 
+                C_W_col, C_Y_cols[l], evaluator, relin_keys, galois_keys, context, NUM_SAMPLES 
             );
 
             // 1.2. GIẢI MÃ (Client-side)
@@ -753,14 +727,14 @@ unique_ptr<Node> train_decision_tree(
     Ciphertext C_W_Phi_Best_Right, C_W_Phi_Best_Left;
 
     // Lặp qua TẤT CẢ thuộc tính (i) và TẤT CẢ ngưỡng (theta)
-    for (int i = 0; i < 1; ++i) { // i < NUM_FEATURES
+    for (int i = 0; i < NUM_FEATURES; ++i) { // i < NUM_FEATURES
         // cout << " Feature " << i << endl;
         for (double threshold : all_thresholds) { // 163 ngưỡng // double threshold : all_thresholds
             // cout << "  Threshold " << threshold << endl;
             // 2.1. Tính tổng trọng số bảo mật (Homomorphic Counts)
             auto [C_right_counts, C_left_counts] = compute_weighted_counts_homo(
                 i, threshold, C_X_cols, C_W_col, C_Y_cols, 
-                evaluator, encryptor, encoder, relin_keys, galois_keys, context, scale, num_samples
+                evaluator, encryptor, encoder, relin_keys, galois_keys, context, scale, NUM_SAMPLES
             );
             
             // 2.2. Giải mã và Tính Gini (Client-side)
@@ -788,12 +762,10 @@ unique_ptr<Node> train_decision_tree(
             if (current_gini < min_gini) {
                 min_gini = current_gini;
                 best_feature = i;
-                best_threshold = threshold;
-                
-                // *Lưu ý: Bạn cần tính và lưu C_W_Phi_Best_Right/Left ở đây nếu muốn tiếp tục đệ quy*
-
+                best_threshold = threshold;       
             }
         }
+
     }
     
     // 3. THIẾT LẬP THÔNG SỐ NÚT VÀ GỌI ĐỆ QUY
@@ -814,14 +786,14 @@ unique_ptr<Node> train_decision_tree(
     node->right_child = train_decision_tree(
         C_X_cols, C_W_new_right, C_Y_cols, all_thresholds, W_train_clear, 
         depth + 1, max_depth, evaluator, encryptor, decryptor, encoder, 
-        relin_keys, galois_keys, context, scale, num_samples
+        relin_keys, galois_keys, context, scale, NUM_SAMPLES
     );
 
     // Nút Con Trái (Sử dụng W_new_left làm trọng số đầu vào)
     node->left_child = train_decision_tree(
         C_X_cols, C_W_new_left, C_Y_cols, all_thresholds, W_train_clear,
         depth + 1, max_depth, evaluator, encryptor, decryptor, encoder, 
-        relin_keys, galois_keys, context, scale, num_samples
+        relin_keys, galois_keys, context, scale, NUM_SAMPLES
     );
 
     cout << "Completed train_decision_tree() at depth=" << depth << endl;
@@ -882,12 +854,9 @@ Ciphertext predict_decision_tree(
     evaluator.sub(C_Theta, C_X_i, C_Z_left);
 
     // Soft-step (ở đây tạm hardcode = 0.5 để test)
-    Plaintext pt_phi_right, pt_phi_left;
-    encoder.encode(0.5, scale, pt_phi_right);
-    encoder.encode(0.5, scale, pt_phi_left);
-    Ciphertext C_Phi_Right, C_Phi_Left;
-    encryptor.encrypt(pt_phi_right, C_Phi_Right);
-    encryptor.encrypt(pt_phi_left, C_Phi_Left);
+    Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_8);
+    Ciphertext C_Phi_Left  = soft_step_evaluation(C_Z_left, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_8);
+
 
     // NHÂN TRỌNG SỐ MỚI (W_new)
     auto safe_multiply = [&](const Ciphertext& C_W, const Ciphertext& C_Phi, Ciphertext& C_Out, string tag)
@@ -963,19 +932,19 @@ Ciphertext predict_decision_tree(
 void calculate_accuracy(
     const std::vector<double>& decoded_predictions, 
     const std::vector<std::vector<double>>& Y_test_onehot,
-    size_t num_samples,
+    size_t NUM_SAMPLES,
     size_t num_labels) 
 {
     cout << "calculate_accuracy()" << endl;
     
-    if (decoded_predictions.size() < num_samples * num_labels) {
+    if (decoded_predictions.size() < NUM_SAMPLES * num_labels) {
         std::cerr << "Loi: Kich thuoc decoded_predictions khong du." << std::endl;
         return;
     }
 
     int correct_predictions = 0;
 
-    for (size_t i = 0; i < num_samples; ++i) {
+    for (size_t i = 0; i < NUM_SAMPLES; ++i) {
         // 1. Xác định Nhãn Dự đoán (Predicted Label)
         std::vector<double> sample_scores;
         for (size_t j = 0; j < num_labels; ++j) {
@@ -1013,8 +982,8 @@ void calculate_accuracy(
     }
 
     // 4. Tính và Hiển thị Accuracy
-    double accuracy = (double)correct_predictions / num_samples;
-    std::cout << "\nTong so mau: " << num_samples << std::endl;
+    double accuracy = (double)correct_predictions / NUM_SAMPLES;
+    std::cout << "\nTong so mau: " << NUM_SAMPLES << std::endl;
     std::cout << "Du doan dung: " << correct_predictions << std::endl;
     std::cout << "**Accuracy: " << std::fixed << std::setprecision(4) << accuracy << "**" << std::endl;
 
@@ -1026,13 +995,11 @@ int main()
     // ====== 1. Thiết lập tham số CKKS ======
     print_example_banner("1. Thiet lap tham so CKKS");
     EncryptionParameters parms(scheme_type::ckks);
-    size_t poly_modulus_degree = 16384; // Tăng bậc đa thức để thêm chỗ cho moduli
+    size_t poly_modulus_degree = pow(2, 15); 
     parms.set_poly_modulus_degree(poly_modulus_degree);
-
-    // Chuỗi 6 modulo là đủ cho soft-step-16
     parms.set_coeff_modulus(CoeffModulus::Create(
         poly_modulus_degree,
-        {60, 40, 40, 40, 40, 40, 40, 40, 60}
+        {60, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 60} // 20 tầng
     ));
 
     double scale = pow(2.0, 40);
@@ -1059,9 +1026,9 @@ int main()
 
     // ====== 3. Đọc dữ liệu Iris ======
     print_example_banner("3. Doc du lieu Iris");
-    vector<Iris> data;
+    vector<Sample> data;
     try {
-        data = read_iris_csv("C:/decision-tree-SEAL/Project_Build/Release/iris.csv");
+        data = read_csv_dynamic("C:/hu/decision-tree-he/Project_Build/Release/iris.csv");
         if (data.empty()) throw runtime_error("Khong doc duoc du lieu iris.");
         normalize(data);
     } catch (const exception &e) {
@@ -1083,9 +1050,9 @@ int main()
     cout << "So nhan (L) NUM_LABELS = " << NUM_LABELS << endl; // L = 3
     
     // Trích xuất dữ liệu từ SplitData
-    auto extract_data = [&](const vector<Iris>& iris_data, vector<vector<double>>& X, vector<vector<double>>& Y_onehot) {
+    auto extract_data = [&](const vector<Sample>& iris_data, vector<vector<double>>& X, vector<vector<double>>& Y_onehot) {
         if (iris_data.empty()) return;
-        size_t num_features = iris_data[0].features.size();
+        size_t NUM_SAMPLES = iris_data[0].features.size();
         
         int iii = 0;
         for (const auto& iris : iris_data) {
@@ -1170,7 +1137,6 @@ int main()
     //     encryptor.encrypt(pty, C_Y[j]);
     // }
     
-
     //???
     vector<vector<double>> X_test, Y_test_onehot;
     extract_data(split.test, X_test, Y_test_onehot); // X_test là ma trận NxK (70x7) ,Y_test_onehot là ma trận N x L (70x3)
@@ -1216,6 +1182,8 @@ int main()
 
     // 6. Tree training và các bước tiếp theo...
     print_example_banner("6. Tree training va cac buoc tiep theo");   
+
+    // Tập hợp các ngưỡng duy nhất từ dữ liệu huấn luyện
     set<double> unique_thresholds_set;
     for (const auto& row : X_train) {
         for (double val : row) {
@@ -1224,7 +1192,7 @@ int main()
     }
     vector<double> all_thresholds(unique_thresholds_set.begin(), unique_thresholds_set.end());
 
-    all_thresholds.resize(2); // Giảm số ngưỡng để thử nghiệm nhanh
+    all_thresholds.resize(number_threshold); // Giảm số ngưỡng để thử nghiệm nhanh
 
     int max_depth = 2; 
     unique_ptr<Node> root = train_decision_tree(
