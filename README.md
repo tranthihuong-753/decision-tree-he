@@ -21,3 +21,19 @@ Release\seal_ckks_example.exe
 0.33 
 
 Do độ phức tạp tính toán nên hàm soft-step chỉ mới dùng đến bậc 5, số ngưỡng cũng chọn thấp nhất (2) để test 
+
+### seal_ckks_example_1.cpp
+
+#### 1 
+
+Đã dùng bậc 16, 8 cho train, test 
+
+Số ngưỡng 2 
+
+Độ chính xác 0.3 
+
+#### 2 
+
+Số ngưỡng 10 
+
+

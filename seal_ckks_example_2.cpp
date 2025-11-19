@@ -1,5 +1,3 @@
-// Mã hóa ngưỡng từ đầu 
-
 #include "examples.h"
 #include <vector>
 #include <cmath>
@@ -13,7 +11,7 @@
 using namespace std;
 using namespace seal;
 
-int number_threshold = 10; // Số ngưỡng để thử nghiệm trong train_decision_tree() thực tế số ngưỡng N x k = 70 x 8 = 560 
+int number_threshold = 2; // Số ngưỡng để thử nghiệm trong train_decision_tree() thực tế số ngưỡng N x k = 70 x 8 = 560 
 const vector<double> SOFT_STEP_COEFFICIENTS_16 = {
     5.00000000e-01,
     2.11445799e+00,
@@ -170,8 +168,8 @@ Ciphertext leaf_value(
     Ciphertext W = C_W_col;
     Ciphertext Y = C_Y_col;
 
-    print_ct_info(context, W, "\tbefore align C_W_col");
-    print_ct_info(context, Y, "\tbefore align C_Y_col");
+    // print_ct_info(context, W, "\tbefore align C_W_col");
+    // print_ct_info(context, Y, "\tbefore align C_Y_col");
 
     auto w_ci = context.get_context_data(W.parms_id())->chain_index();
     auto y_ci = context.get_context_data(Y.parms_id())->chain_index();
@@ -615,11 +613,19 @@ pair<Ciphertext, Ciphertext> compute_W_phi_best(
     Ciphertext C_Theta;
     encryptor.encrypt(pt_theta, C_Theta);
 
-    // Độ lệch Z
+    // Mã hóa one-hot best_feature ???
+    vector<double> v(C_X_cols.size(), 0.0);
+    v[best_feature] = 1.0;
+    Plaintext pt_one_hot;
+    encoder.encode(v, C_X_cols[best_feature].scale(), pt_one_hot);
+    Ciphertext C_one_hot;
+    encryptor.encrypt(pt_one_hot, C_one_hot);
+
+    // Độ lệch Z = X[best_feature] - theta
     cout << " 1" << endl;
     Ciphertext C_Z_right, C_Z_left; 
-    evaluator.sub(C_X_cols[best_feature], C_Theta, C_Z_right); 
-    evaluator.sub(C_Theta, C_X_cols[best_feature], C_Z_left); 
+    evaluator.sub(C_one_hot, C_Theta, C_Z_right); 
+    evaluator.sub(C_Theta, C_one_hot, C_Z_left); 
 
     // Soft-Step
     Ciphertext C_Phi_Right = soft_step_evaluation(C_Z_right, evaluator, encryptor, encoder, relin_keys, scale, context, SOFT_STEP_COEFFICIENTS_16); //?SOFT_STEP_COEFFICIENTS_16
@@ -709,7 +715,7 @@ unique_ptr<Node> train_decision_tree(
     // Lặp qua TẤT CẢ thuộc tính (i) và TẤT CẢ ngưỡng (theta)
     for (int i = 0; i < NUM_FEATURES; ++i) { // i < NUM_FEATURES
         // cout << " Feature " << i << endl;
-        for (double threshold : all_thresholds) { 
+        for (double threshold : all_thresholds) { // 163 ngưỡng // double threshold : all_thresholds
             // cout << "  Threshold " << threshold << endl;
             // 2.1. Tính tổng trọng số bảo mật (Homomorphic Counts)
             auto [C_right_counts, C_left_counts] = compute_weighted_counts_homo(
