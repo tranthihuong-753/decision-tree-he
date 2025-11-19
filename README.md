@@ -24,9 +24,9 @@ Do độ phức tạp tính toán nên hàm soft-step chỉ mới dùng đến b
 
 ### seal_ckks_example_1.cpp
 
-#### 1 
-
 Đã dùng bậc 16, 8 cho train, test 
+
+#### 1 
 
 Số ngưỡng 2 
 
@@ -36,4 +36,22 @@ Số ngưỡng 2
 
 Số ngưỡng 10 
 
+Độ chính xác 0.3667 
 
+### seal_ckks_example_2.cpp
+
+Thêm mã hóa one-hot best_feature trong compute_W_phi_best
+
+#### 1 
+
+Số ngưỡng 2 
+
+Độ chính xác 0.3 
+
+#### 2 
+
+Số ngưỡng 10 
+
+Độ chính xác 0.233 
+
+// note max_depth cho cả 4 lần train là 2, có thể tăng lên 
