@@ -7,17 +7,27 @@ find_package(SEAL REQUIRED)
 
 # Thêm file thực thi
 # add_executable(seal_ckks_example seal_ckks_example.cpp)
-# add_executable(testt testt.cpp)
-# add_executable(tett tett.cpp)
-add_executable(seal_ckks_example_1 seal_ckks_example_1.cpp)
-add_executable(seal_ckks_example_2 seal_ckks_example_2.cpp)
+# add_executable(te te.cpp)
+# add_executable(eight_server eight_server.cpp)
+# add_executable(ten ten.cpp)
+# add_executable(two_p two_p.cpp)
+# add_executable(eight eight.cpp)
+add_executable(elevent elevent.cpp)
+# add_executable(soft-step-thuong soft-step-thuong.cpp)
 
 # Liên kết file thực thi với thư viện SEAL
 # target_link_libraries(seal_ckks_example SEAL::seal)
-# target_link_libraries(testt SEAL::seal)
-# target_link_libraries(tett SEAL::seal)
-target_link_libraries(seal_ckks_example_1 SEAL::seal)
-target_link_libraries(seal_ckks_example_2 SEAL::seal)
+# target_link_libraries(eight_server SEAL::seal)
+# target_link_libraries(ten SEAL::seal)
+# target_link_libraries(te SEAL::seal)
+# target_link_libraries(two_p SEAL::seal)
+# target_link_libraries(eight SEAL::seal)
+target_link_libraries(elevent SEAL::seal)
+# target_link_libraries(soft-step-thuong SEAL::seal)
 
 # Thêm đường dẫn đến thư mục chứa file examples.h
-include_directories("C:/hu/decision-tree-he/SEAL/native/examples") 
+# include_directories("C:/hu/decision-tree-he/SEAL/native/examples") 
+include_directories(
+    $ENV{HOME}/decision-tree-he/SEAL/native/examples
+)
+
